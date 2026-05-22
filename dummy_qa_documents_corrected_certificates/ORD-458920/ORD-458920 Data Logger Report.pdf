@@ -1,0 +1,119 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+3 0 obj
+<< /Length 1367 >>
+stream
+BT
+/F2 15 Tf
+50 750 Td
+/F2 13 Tf
+(Temperature Data Logger Report) Tj
+0 -16 Td
+/F1 9.5 Tf
+(DEMONSTRATION DOCUMENT - FICTIONAL DATA ONLY) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Order ID: ORD-458920) Tj
+0 -16 Td
+/F1 9.5 Tf
+(GRN / Receiving No.: GRN-88412) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Supplier: Northwind Pharma Logistics) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Product: Sterile Injectable Kit 20 mL) Tj
+0 -16 Td
+/F1 9.5 Tf
+(NDC: 12345-6789-10) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Lot Number: LTN-2026-045) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Expiration Date: 2027-05-31) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Logger Report Type: Auto-generated PDF report) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Alarm Range: 2.0 C to 8.0 C) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Sample Rate: 10 minutes) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Trip Start: 2026-05-10 08:00) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Trip End: 2026-05-13 09:15) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Logger ID Summary) Tj
+0 -16 Td
+/F1 9.5 Tf
+(1. Logger ID: DL-100245) Tj
+0 -16 Td
+/F1 9.5 Tf
+(2. Logger ID: DL-100246) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Minimum Temperature: 2.4 C) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Maximum Temperature: 7.8 C) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Excursion Detected: No) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Temperature Status: PASS - Within limits) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(QA Review Note:) Tj
+0 -16 Td
+/F1 9.5 Tf
+(No excursion observed in this dummy report.) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Parent 5 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 3 0 R >>
+endobj
+5 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+6 0 obj
+<< /Type /Catalog /Pages 5 0 R >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000000154 00000 n 
+0000001573 00000 n 
+0000001709 00000 n 
+0000001766 00000 n 
+trailer
+<< /Size 7 /Root 6 0 R >>
+startxref
+1815
+%%EOF

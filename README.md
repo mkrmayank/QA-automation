@@ -1,6 +1,6 @@
-# QA Release Intelligence Prototype
+# QA Release Intelligence
 
-This is a stakeholder demonstration prototype for a GenAI-assisted QA document verification and release decision support system.
+QA document verification and release decision support application for OCR-based intake, structured extraction, validation, and auditable QA review.
 
 ## Run
 
@@ -14,12 +14,13 @@ Then open:
 http://localhost:4173
 ```
 
-## What It Demonstrates
+## Capabilities
 
 - Bulk QA document upload/intake
 - Smart grouping of mixed documents into separate Order IDs
-- Simulated OCR/NLP processing workflow before dashboard review
-- Missing inspection field resolution using QA-entered values, `0`, or `NULL`
+- Real browser-side OCR using PDF.js page rendering plus Tesseract.js
+- GenAI-ready NLP extraction via `/api/extract-document`, with deterministic local fallback for continuity
+- Editable missing inspection field resolution using QA-entered values, `0`, or `NULL`
 - QA release queue
 - OCR/NLP extraction results for Order ID and data logger numbers
 - Oracle reference comparison
@@ -28,17 +29,25 @@ http://localhost:4173
 - Prescriptive release recommendation
 - Exception queue and audit trail
 
-The OCR/GenAI results are simulated with realistic structured demo data so the architecture and workflow can be presented without connecting to enterprise systems.
+The OCR layer performs actual Tesseract recognition. The GenAI extraction layer is designed as a backend-safe integration point: configure `GENAI_EXTRACTION_ENDPOINT` and optional `GENAI_EXTRACTION_TOKEN` on the Node server to connect a real extraction model without exposing credentials in the browser.
 
-## Dummy Document Pack
+For best results, run through the local server instead of opening `index.html` directly:
 
-Generated PDFs are available under:
-
-```text
-dummy_qa_documents/
+```powershell
+node server.js
 ```
 
-Each order folder contains:
+Then open `http://localhost:4173`.
+
+The extraction prompt template is stored at:
+
+```text
+prompts/document_extraction_prompt.md
+```
+
+## Expected Document Package
+
+Each order should include:
 
 - Packing list
 - QA inspection sheet
@@ -49,7 +58,7 @@ Each order folder contains:
 - Supplier Certificate of Compliance
 - Data logger report
 
-COC means Certificate of Compliance in this project. The corrected workflow compares Supplier COA against Company COA and Supplier COC against Company COC. Overall certificate result is `PASS` only when both COA validation and COC validation pass.
+COC means Certificate of Compliance in this project. The workflow compares Supplier COA against Company COA and Supplier COC against Company COC. Overall certificate result is `PASS` only when both COA validation and COC validation pass.
 
 Certificate documents use owner-aware structure:
 

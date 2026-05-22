@@ -632,11 +632,29 @@ tr:last-child td {
   font-weight: 700;
 }
 
+.process-log .ocr-line {
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+.inline-input {
+  min-height: 38px;
+  width: min(220px, 100%);
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
 .field-actions {
   display: grid;
   grid-template-columns: minmax(120px, 1fr) repeat(3, auto);
   gap: 8px;
   align-items: center;
+}
+
+.field-actions.compact {
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
 }
 
 .field-actions input {

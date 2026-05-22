@@ -1,0 +1,125 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+3 0 obj
+<< /Length 1652 >>
+stream
+BT
+/F2 15 Tf
+50 750 Td
+/F2 13 Tf
+(SUPPLIER Certificate of Analysis) Tj
+0 -16 Td
+/F1 9.5 Tf
+(DEMONSTRATION DOCUMENT - FICTIONAL DATA ONLY) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Document Type: COA) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Document Owner: SUPPLIER) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Order ID: ORD-458920) Tj
+0 -16 Td
+/F1 9.5 Tf
+(GRN / Receiving No.: GRN-88412) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Supplier: Northwind Pharma Logistics) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Product: Sterile Injectable Kit 20 mL) Tj
+0 -16 Td
+/F1 9.5 Tf
+(NDC: 12345-6789-10) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Lot Number: LTN-2026-045) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Expiration Date: 2027-05-31) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Supplier-provided analytical results for the shipped lot.) Tj
+0 -16 Td
+/F1 9.5 Tf
+(The system compares these results against the Company COA specifications.) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Test | Specification | Result | Status) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Assay | 95.0 - 105.0 % | 99 | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Purity | >= 98.0 % | 98.6 | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+(pH | 6.8 - 7.4 | 7 | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Moisture | <= 2.0 % | 1.4 | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Viscosity | 10.0 - 14.0 cP | 11.8 | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Microbiology | Conforms | Conforms | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Heavy Metals | Conforms | Conforms | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Density | 0.98 - 1.03 g/mL | 1 | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Appearance | Clear | Clear | Pass) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Quality Approval: ) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Signature Date: ) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Document Status: Unsigned - supplier correction required) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Parent 5 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 3 0 R >>
+endobj
+5 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+6 0 obj
+<< /Type /Catalog /Pages 5 0 R >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000000154 00000 n 
+0000001858 00000 n 
+0000001994 00000 n 
+0000002051 00000 n 
+trailer
+<< /Size 7 /Root 6 0 R >>
+startxref
+2100
+%%EOF

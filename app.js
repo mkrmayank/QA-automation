@@ -1,583 +1,68 @@
-let cases = [
-  {
-    id: "QAC-10291",
-    orderId: "ORD-458920",
-    grn: "GRN-88412",
-    supplier: "Northwind Pharma Logistics",
-    product: "Sterile Injectable Kit 20 mL",
-    ndc: "12345-6789-10",
-    lot: "LTN-2026-045",
-    expiry: "2027-05-31",
-    priority: "Backorder Risk",
-    assignedTo: "M. Shah",
-    ageHours: 18,
-    oracle: {
-      orderId: "ORD-458920",
-      expectedLoggerCount: 3,
-      ndc: "12345-6789-10",
-      lot: "LTN-2026-045",
-      expiry: "2027-05-31",
-      caseQuantity: 24,
-    },
-    documents: [
-      { type: "Packing List", present: true, readable: true, status: "Pass" },
-      { type: "Inspection Sheet", present: true, readable: true, status: "Missing Fields" },
-      { type: "Label Image", present: true, readable: true, status: "Pass" },
-      { type: "COA", present: true, readable: true, status: "Unsigned" },
-      { type: "COC", present: false, readable: false, status: "Missing" },
-      { type: "Data Logger Report", present: true, readable: true, status: "Pass" },
-    ],
-    extracted: {
-      orderCandidates: [
-        { source: "Packing List", label: "Sales Order", value: "ORD-458920", confidence: 0.98 },
-        { source: "Inspection Sheet", label: "Order No.", value: "458920", confidence: 0.93 },
-        { source: "COA", label: "Customer Order", value: "ORD-458290", confidence: 0.89 },
-      ],
-      dataLoggers: [
-        { source: "Packing List", label: "Temp Logger", value: "DL-100245", confidence: 0.96 },
-        { source: "Packing List", label: "Temp Logger", value: "DL-100246", confidence: 0.95 },
-      ],
-      inspection: {
-        amountPerCase: null,
-        fullCasesReceived: 10,
-        caseQuantity: 24,
-      },
-      label: {
-        ndc: "12345-6789-10",
-        lot: "LTN-2026-045",
-        expiry: "2027-05-31",
-      },
-      coa: {
-        present: true,
-        signed: false,
-        lot: "LTN-2026-045",
-        productMatch: true,
-      },
-      coc: {
-        present: false,
-        signed: false,
-        lot: null,
-        productMatch: null,
-      },
-      loggerReport: {
-        loggerIds: ["DL-100245", "DL-100246"],
-        temperatureStatus: "Within limits",
-        minTemp: "2.4 C",
-        maxTemp: "7.8 C",
-      },
-    },
-    audit: [
-      "09:12 Documents uploaded by Receiving",
-      "09:14 OCR completed across 6 documents",
-      "09:15 Rules engine identified 4 open exceptions",
-    ],
-  },
-  {
-    id: "QAC-10292",
-    orderId: "ORD-459104",
-    grn: "GRN-88429",
-    supplier: "Apex Biologics",
-    product: "Cold Chain Diagnostic Reagent",
-    ndc: "54321-1122-09",
-    lot: "ABX-7110",
-    expiry: "2027-11-30",
-    priority: "High",
-    assignedTo: "R. Patel",
-    ageHours: 7,
-    oracle: {
-      orderId: "ORD-459104",
-      expectedLoggerCount: 2,
-      ndc: "54321-1122-09",
-      lot: "ABX-7110",
-      expiry: "2027-11-30",
-      caseQuantity: 12,
-    },
-    documents: [
-      { type: "Packing List", present: true, readable: true, status: "Pass" },
-      { type: "Inspection Sheet", present: true, readable: true, status: "Pass" },
-      { type: "Label Image", present: true, readable: true, status: "Pass" },
-      { type: "COA", present: true, readable: true, status: "Pass" },
-      { type: "COC", present: true, readable: true, status: "Pass" },
-      { type: "Data Logger Report", present: true, readable: true, status: "Pass" },
-    ],
-    extracted: {
-      orderCandidates: [
-        { source: "Packing List", label: "Oracle Order", value: "459104", confidence: 0.94 },
-        { source: "Inspection Sheet", label: "SO Number", value: "ORD-459104", confidence: 0.97 },
-      ],
-      dataLoggers: [
-        { source: "Packing List", label: "Device Serial No.", value: "TT4-710445", confidence: 0.94 },
-        { source: "Packing List", label: "Device Serial No.", value: "TT4-710446", confidence: 0.95 },
-      ],
-      inspection: {
-        amountPerCase: 12,
-        fullCasesReceived: 16,
-        caseQuantity: 12,
-      },
-      label: {
-        ndc: "54321-1122-09",
-        lot: "ABX-7110",
-        expiry: "2027-11-30",
-      },
-      coa: {
-        present: true,
-        signed: true,
-        lot: "ABX-7110",
-        productMatch: true,
-      },
-      coc: {
-        present: true,
-        signed: true,
-        lot: "ABX-7110",
-        productMatch: true,
-      },
-      loggerReport: {
-        loggerIds: ["TT4-710445", "TT4-710446"],
-        temperatureStatus: "Within limits",
-        minTemp: "3.1 C",
-        maxTemp: "6.9 C",
-      },
-    },
-    audit: [
-      "10:22 Documents uploaded by Receiving",
-      "10:24 OCR completed across 6 documents",
-      "10:25 No blocking exceptions found",
-    ],
-  },
-  {
-    id: "QAC-10293",
-    orderId: "ORD-459221",
-    grn: "GRN-88453",
-    supplier: "Helix Therapeutics",
-    product: "Temperature Controlled Vial Pack",
-    ndc: "67789-2201-04",
-    lot: "HX-5029-B",
-    expiry: "2028-02-28",
-    priority: "Normal",
-    assignedTo: "Unassigned",
-    ageHours: 31,
-    oracle: {
-      orderId: "ORD-459221",
-      expectedLoggerCount: 1,
-      ndc: "67789-2201-04",
-      lot: "HX-5029-B",
-      expiry: "2028-02-28",
-      caseQuantity: 48,
-    },
-    documents: [
-      { type: "Packing List", present: true, readable: true, status: "Pass" },
-      { type: "Inspection Sheet", present: true, readable: true, status: "Pass" },
-      { type: "Label Image", present: true, readable: false, status: "Low Confidence" },
-      { type: "COA", present: true, readable: true, status: "Pass" },
-      { type: "COC", present: true, readable: true, status: "Pass" },
-      { type: "Data Logger Report", present: true, readable: true, status: "Excursion" },
-    ],
-    extracted: {
-      orderCandidates: [
-        { source: "Packing List", label: "Order Reference", value: "ORD-459221", confidence: 0.96 },
-      ],
-      dataLoggers: [
-        { source: "Packing List", label: "Recorder ID", value: "LOG-992310", confidence: 0.91 },
-      ],
-      inspection: {
-        amountPerCase: 48,
-        fullCasesReceived: 4,
-        caseQuantity: 48,
-      },
-      label: {
-        ndc: "67789-2201-04",
-        lot: "HX-5029-8",
-        expiry: "2028-02-28",
-      },
-      coa: {
-        present: true,
-        signed: true,
-        lot: "HX-5029-B",
-        productMatch: true,
-      },
-      coc: {
-        present: true,
-        signed: true,
-        lot: "HX-5029-B",
-        productMatch: true,
-      },
-      loggerReport: {
-        loggerIds: ["LOG-992310"],
-        temperatureStatus: "Excursion detected",
-        minTemp: "1.1 C",
-        maxTemp: "9.4 C",
-      },
-    },
-    audit: [
-      "Yesterday 14:46 Documents uploaded by Receiving",
-      "Yesterday 14:49 OCR flagged label lot number with low confidence",
-      "Yesterday 14:50 Temperature excursion routed to QA review",
-    ],
-  },
-];
+/* QA Release Intelligence
+   Main browser application. The app is intentionally dependency-light:
+   upload documents, OCR them, extract structured fields, validate the QA
+   release package, and present an auditable review dashboard. */
 
-const seededDemoCases = JSON.parse(JSON.stringify(cases));
+// ---------------------------------------------------------------------------
+// Configuration and State
+// ---------------------------------------------------------------------------
 
-const DOCUMENT_OWNERS = {
+const DOCUMENT_OWNERS = Object.freeze({
   COMPANY: "COMPANY",
   SUPPLIER: "SUPPLIER",
-};
+});
 
-const ANALYTICAL_SPEC_FIELDS = ["assay", "purity", "pH", "moisture", "viscosity", "microbiology", "heavyMetals", "density", "appearance"];
-const COMPLIANCE_FIELDS = ["gmpCompliance", "isoCompliance", "regulatoryDeclarations", "packagingCompliance", "storageConditions", "transportationConditions", "countryOfOrigin", "agreedCommitments"];
+const DOCUMENT_TYPES = Object.freeze({
+  PACKING_LIST: "Packing List",
+  INSPECTION_SHEET: "Inspection Sheet",
+  LABEL_IMAGE: "Label Image",
+  COA: "COA",
+  COC: "COC",
+  DATA_LOGGER_REPORT: "Data Logger Report",
+  SUPPORTING: "Supporting Document",
+});
 
-function createDefaultCertificates(qaCase, options = {}) {
-  const supplierCoaValues = {
-    assay: options.assay ?? 99.4,
-    purity: options.purity ?? 99.1,
-    pH: options.pH ?? 7.1,
-    moisture: options.moisture ?? 1.2,
-    viscosity: options.viscosity ?? 12,
-    microbiology: options.microbiology ?? "Conforms",
-    heavyMetals: options.heavyMetals ?? "Conforms",
-    density: options.density ?? 1.01,
-    appearance: options.appearance ?? "Clear",
-  };
+const CERTIFICATE_FIELDS = Object.freeze({
+  analytical: ["assay", "purity", "pH", "moisture", "viscosity", "microbiology", "heavyMetals", "density", "appearance"],
+  compliance: ["gmpCompliance", "isoCompliance", "regulatoryDeclarations", "packagingCompliance", "storageConditions", "transportationConditions", "countryOfOrigin", "agreedCommitments"],
+});
 
-  const supplierCocValues = {
-    gmpCompliance: options.gmpCompliance ?? "Compliant",
-    isoCompliance: options.isoCompliance ?? "ISO 13485",
-    regulatoryDeclarations: options.regulatoryDeclarations ?? "Compliant",
-    packagingCompliance: options.packagingCompliance ?? "Compliant",
-    storageConditions: options.storageConditions ?? "2-8 C",
-    transportationConditions: options.transportationConditions ?? "Temperature controlled",
-    countryOfOrigin: options.countryOfOrigin ?? "Declared",
-    agreedCommitments: options.agreedCommitments ?? "Compliant",
-  };
-
-  return [
-    {
-      document_type: "COA",
-      document_owner: DOCUMENT_OWNERS.COMPANY,
-      present: options.companyCoaPresent ?? true,
-      signed: true,
-      fields: {
-        specifications: {
-          assay: { rule: "range", min: 95, max: 105, unit: "%" },
-          purity: { rule: "min", min: 98, unit: "%" },
-          pH: { rule: "range", min: 6.8, max: 7.4 },
-          moisture: { rule: "max", max: 2, unit: "%" },
-          viscosity: { rule: "range", min: 10, max: 14, unit: "cP" },
-          microbiology: { rule: "exact", value: "Conforms" },
-          heavyMetals: { rule: "exact", value: "Conforms" },
-          density: { rule: "range", min: 0.98, max: 1.03, unit: "g/mL" },
-          appearance: { rule: "exact", value: "Clear" },
-        },
-      },
-    },
-    {
-      document_type: "COA",
-      document_owner: DOCUMENT_OWNERS.SUPPLIER,
-      present: options.supplierCoaPresent ?? true,
-      signed: options.supplierCoaSigned ?? true,
-      fields: {
-        results: supplierCoaValues,
-      },
-    },
-    {
-      document_type: "COC",
-      document_owner: DOCUMENT_OWNERS.COMPANY,
-      present: options.companyCocPresent ?? true,
-      signed: true,
-      fields: {
-        commitments: {
-          gmpCompliance: "Compliant",
-          isoCompliance: "ISO 13485",
-          regulatoryDeclarations: "Compliant",
-          packagingCompliance: "Compliant",
-          storageConditions: "2-8 C",
-          transportationConditions: "Temperature controlled",
-          countryOfOrigin: "Declared",
-          agreedCommitments: "Compliant",
-        },
-      },
-    },
-    {
-      document_type: "COC",
-      document_owner: DOCUMENT_OWNERS.SUPPLIER,
-      present: options.supplierCocPresent ?? true,
-      signed: options.supplierCocSigned ?? true,
-      fields: {
-        declarations: supplierCocValues,
-      },
-    },
-  ];
-}
-
-function hydrateCaseSchema(qaCase, options = {}) {
-  const certificates = qaCase.extracted.certificates || createDefaultCertificates(qaCase, options);
-  return {
-    ...qaCase,
-    documents: [
-      ...(qaCase.documents || []).filter((doc) => doc.type !== "COA" && doc.type !== "COC"),
-      ...certificates.map((doc) => ({
-        type: `${doc.document_owner === DOCUMENT_OWNERS.COMPANY ? "Company" : "Supplier"} ${doc.document_type}`,
-        present: doc.present,
-        readable: doc.present,
-        status: doc.present ? (doc.signed ? "Pass" : "Unsigned") : "Missing",
-      })),
-    ],
-    extracted: {
-      ...qaCase.extracted,
-      certificates,
-    },
-  };
-}
-
-cases = cases.map((qaCase, index) => hydrateCaseSchema(qaCase, [
-  { supplierCoaSigned: false, supplierCocSigned: false, supplierCocPresent: false },
-  {},
-  { assay: 106.2, gmpCompliance: "Compliant" },
-][index] || {}));
-
-function getOwnedDocument(qaCase, documentType, owner) {
-  return qaCase.extracted.certificates?.find((doc) => doc.document_type === documentType && doc.document_owner === owner) || {
-    document_type: documentType,
-    document_owner: owner,
-    present: false,
-    signed: false,
-    fields: {},
-  };
-}
-
-function compareAnalyticalValue(fieldName, companyRule, supplierValue) {
-  if (!companyRule || supplierValue === null || supplierValue === undefined || supplierValue === "") {
-    return { fieldName, passed: false, expected: "Required specification/result", actual: valueOrBlank(supplierValue) };
-  }
-
-  if (companyRule.rule === "exact") {
-    const passed = normalizeId(supplierValue) === normalizeId(companyRule.value);
-    return { fieldName, passed, expected: companyRule.value, actual: supplierValue };
-  }
-
-  const numeric = Number(supplierValue);
-  if (!Number.isFinite(numeric)) {
-    return { fieldName, passed: false, expected: formatSpec(companyRule), actual: supplierValue };
-  }
-
-  const minOk = companyRule.min === undefined || numeric >= companyRule.min;
-  const maxOk = companyRule.max === undefined || numeric <= companyRule.max;
-  return { fieldName, passed: minOk && maxOk, expected: formatSpec(companyRule), actual: `${supplierValue}${companyRule.unit ? ` ${companyRule.unit}` : ""}` };
-}
-
-function formatSpec(rule) {
-  if (!rule) return "Required";
-  if (rule.rule === "range") return `${rule.min} - ${rule.max}${rule.unit ? ` ${rule.unit}` : ""}`;
-  if (rule.rule === "min") return `>= ${rule.min}${rule.unit ? ` ${rule.unit}` : ""}`;
-  if (rule.rule === "max") return `<= ${rule.max}${rule.unit ? ` ${rule.unit}` : ""}`;
-  return String(rule.value ?? "Required");
-}
-
-function compareCoaDocuments(qaCase) {
-  const companyCoa = getOwnedDocument(qaCase, "COA", DOCUMENT_OWNERS.COMPANY);
-  const supplierCoa = getOwnedDocument(qaCase, "COA", DOCUMENT_OWNERS.SUPPLIER);
-  const details = [];
-
-  if (!companyCoa.present) details.push({ fieldName: "Company COA", passed: false, expected: "Present", actual: "Missing" });
-  if (!supplierCoa.present) details.push({ fieldName: "Supplier COA", passed: false, expected: "Present", actual: "Missing" });
-  if (supplierCoa.present && !supplierCoa.signed) details.push({ fieldName: "Supplier COA signature", passed: false, expected: "Signed/approved", actual: "Unsigned" });
-
-  const specs = companyCoa.fields?.specifications || {};
-  const results = supplierCoa.fields?.results || {};
-  ANALYTICAL_SPEC_FIELDS.forEach((fieldName) => {
-    details.push(compareAnalyticalValue(fieldName, specs[fieldName], results[fieldName]));
-  });
-
-  return {
-    status: details.every((item) => item.passed) ? "PASS" : "FAIL",
-    details,
-  };
-}
-
-function compareComplianceValue(fieldName, required, declared) {
-  if (!required || declared === null || declared === undefined || declared === "") {
-    return { fieldName, passed: false, expected: valueOrBlank(required), actual: valueOrBlank(declared) };
-  }
-  const passed = normalizeId(required) === normalizeId(declared) || normalizeId(declared).includes(normalizeId(required));
-  return { fieldName, passed, expected: required, actual: declared };
-}
-
-function compareCocDocuments(qaCase) {
-  const companyCoc = getOwnedDocument(qaCase, "COC", DOCUMENT_OWNERS.COMPANY);
-  const supplierCoc = getOwnedDocument(qaCase, "COC", DOCUMENT_OWNERS.SUPPLIER);
-  const details = [];
-
-  if (!companyCoc.present) details.push({ fieldName: "Company COC", passed: false, expected: "Present", actual: "Missing" });
-  if (!supplierCoc.present) details.push({ fieldName: "Supplier COC", passed: false, expected: "Present", actual: "Missing" });
-  if (supplierCoc.present && !supplierCoc.signed) details.push({ fieldName: "Supplier COC signature", passed: false, expected: "Signed/approved", actual: "Unsigned" });
-
-  const commitments = companyCoc.fields?.commitments || {};
-  const declarations = supplierCoc.fields?.declarations || {};
-  COMPLIANCE_FIELDS.forEach((fieldName) => {
-    details.push(compareComplianceValue(fieldName, commitments[fieldName], declarations[fieldName]));
-  });
-
-  return {
-    status: details.every((item) => item.passed) ? "PASS" : "FAIL",
-    details,
-  };
-}
-
-function getCertificateDecision(qaCase) {
-  const coaValidation = compareCoaDocuments(qaCase);
-  const cocValidation = compareCocDocuments(qaCase);
-  return {
-    coaValidation,
-    cocValidation,
-    overallStatus: coaValidation.status === "PASS" && cocValidation.status === "PASS" ? "PASS" : "FAIL",
-  };
-}
-
-const rules = [
-  {
-    id: "R001",
-    name: "Order ID must match Oracle",
-    severity: "Critical",
-    run: (qaCase) => {
-      const matches = qaCase.extracted.orderCandidates.some((candidate) =>
-        normalizeOrder(candidate.value) === normalizeOrder(qaCase.oracle.orderId)
-      );
-      return result(matches, "Order ID", qaCase.oracle.orderId, listValues(qaCase.extracted.orderCandidates), "Investigate document or order mismatch before release.");
-    },
-  },
-  {
-    id: "R001A",
-    name: "All high-confidence Order IDs must match Oracle",
-    severity: "Critical",
-    run: (qaCase) => {
-      const mismatches = qaCase.extracted.orderCandidates.filter((candidate) =>
-        candidate.confidence >= 0.85 && normalizeOrder(candidate.value) !== normalizeOrder(qaCase.oracle.orderId)
-      );
-      return result(
-        mismatches.length === 0,
-        "Order ID candidates",
-        qaCase.oracle.orderId,
-        mismatches.length ? listValues(mismatches) : "All candidates matched",
-        "Confirm whether the mismatched document belongs to the correct shipment."
-      );
-    },
-  },
-  {
-    id: "R002",
-    name: "Data logger count must match expected count",
-    severity: "High",
-    run: (qaCase) => result(
-      unique(qaCase.extracted.dataLoggers.map((logger) => normalizeId(logger.value))).length === qaCase.oracle.expectedLoggerCount,
-      "Data logger count",
-      String(qaCase.oracle.expectedLoggerCount),
-      String(unique(qaCase.extracted.dataLoggers.map((logger) => normalizeId(logger.value))).length),
-      "QA should verify missing or extra data logger numbers."
-    ),
-  },
-  {
-    id: "R003",
-    name: "Data logger report must match packing list",
-    severity: "High",
-    run: (qaCase) => {
-      const loggerIds = qaCase.extracted.dataLoggers.map((logger) => normalizeId(logger.value));
-      const reportIds = qaCase.extracted.loggerReport.loggerIds.map(normalizeId);
-      const allMatch = loggerIds.every((logger) => reportIds.includes(logger));
-      return result(allMatch, "Logger IDs", listRaw(qaCase.extracted.dataLoggers), qaCase.extracted.loggerReport.loggerIds.join(", "), "Attach the correct logger report or confirm IDs manually.");
-    },
-  },
-  {
-    id: "R004",
-    name: "Temperature result must be acceptable",
-    severity: "Critical",
-    run: (qaCase) => result(
-      qaCase.extracted.loggerReport.temperatureStatus.toLowerCase().includes("within"),
-      "Temperature status",
-      "Within limits",
-      qaCase.extracted.loggerReport.temperatureStatus,
-      "Route to temperature excursion/deviation review."
-    ),
-  },
-  {
-    id: "R005",
-    name: "Amount per case must be present",
-    severity: "High",
-    run: (qaCase) => result(Boolean(qaCase.extracted.inspection.amountPerCase), "Amount per case", "Required", valueOrBlank(qaCase.extracted.inspection.amountPerCase), "Receiving or QA must update the inspection sheet."),
-  },
-  {
-    id: "R006",
-    name: "Full cases received must be present",
-    severity: "High",
-    run: (qaCase) => result(Boolean(qaCase.extracted.inspection.fullCasesReceived), "Full cases received", "Required", valueOrBlank(qaCase.extracted.inspection.fullCasesReceived), "Receiving or QA must update the inspection sheet."),
-  },
-  {
-    id: "R007",
-    name: "Label lot must match Oracle",
-    severity: "Critical",
-    run: (qaCase) => result(normalizeId(qaCase.extracted.label.lot) === normalizeId(qaCase.oracle.lot), "Label lot", qaCase.oracle.lot, qaCase.extracted.label.lot, "Place shipment on hold and verify label image."),
-  },
-  {
-    id: "R008",
-    name: "Label NDC must match Oracle",
-    severity: "Critical",
-    run: (qaCase) => result(normalizeId(qaCase.extracted.label.ndc) === normalizeId(qaCase.oracle.ndc), "Label NDC", qaCase.oracle.ndc, qaCase.extracted.label.ndc, "Investigate product or label mismatch."),
-  },
-  {
-    id: "R009",
-    name: "Supplier COA must comply with Company COA",
-    severity: "Critical",
-    run: (qaCase) => {
-      const coa = compareCoaDocuments(qaCase);
-      const failed = coa.details.filter((item) => !item.passed).map((item) => item.fieldName).join(", ");
-      return result(coa.status === "PASS", "COA comparison", "Supplier COA compliant with Company COA specifications", coa.status, failed ? `Review non-compliant COA field(s): ${failed}.` : "No action required.");
-    },
-  },
-  {
-    id: "R010",
-    name: "Supplier COC must comply with Company COC",
-    severity: "Critical",
-    run: (qaCase) => {
-      const coc = compareCocDocuments(qaCase);
-      const failed = coc.details.filter((item) => !item.passed).map((item) => item.fieldName).join(", ");
-      return result(coc.status === "PASS", "COC comparison", "Supplier COC compliant with Company COC commitments", coc.status, failed ? `Review non-compliant COC commitment(s): ${failed}.` : "No action required.");
-    },
-  },
-  {
-    id: "R011",
-    name: "Overall COA/COC compliance decision",
-    severity: "Critical",
-    run: (qaCase) => {
-      const decision = getCertificateDecision(qaCase);
-      return result(decision.overallStatus === "PASS", "Overall certificate decision", "PASS", decision.overallStatus, "Overall result is FAIL unless both COA validation and COC validation pass.");
-    },
-  },
+const REQUIRED_DOCUMENTS = [
+  DOCUMENT_TYPES.PACKING_LIST,
+  DOCUMENT_TYPES.INSPECTION_SHEET,
+  DOCUMENT_TYPES.LABEL_IMAGE,
+  "Company COA",
+  "Supplier COA",
+  "Company COC",
+  "Supplier COC",
+  DOCUMENT_TYPES.DATA_LOGGER_REPORT,
 ];
 
+const GEN_AI_CONFIG = Object.freeze({
+  // Browser calls the local server. The server can forward to a real model
+  // without exposing API credentials in frontend code.
+  extractionEndpoint: "/api/extract-document",
+});
+
 const state = {
-  selectedCaseId: cases[0].id,
+  cases: [],
+  selectedCaseId: null,
   tab: "upload",
   stage: "intake",
   uploadedFiles: [],
   processLog: [],
+  ocrProgress: [],
+  fieldHistory: [],
   processing: false,
 };
 
-const demoUploadFiles = [
-  { name: "ORD-458920_detailed_packing_list.pdf", type: "Packing List", detectedOrder: "ORD-458920", confidence: 0.98 },
-  { name: "ORD-458920_inspection_sheet.pdf", type: "Inspection Sheet", detectedOrder: "ORD-458920", confidence: 0.93 },
-  { name: "ORD-458920_label_image.jpg", type: "Label Image", detectedOrder: "ORD-458920", confidence: 0.96 },
-  { name: "ORD-458920_company_COA.pdf", type: "COA", owner: DOCUMENT_OWNERS.COMPANY, detectedOrder: "ORD-458920", confidence: 0.92 },
-  { name: "ORD-458920_supplier_COA.pdf", type: "COA", owner: DOCUMENT_OWNERS.SUPPLIER, detectedOrder: "ORD-458920", confidence: 0.89 },
-  { name: "ORD-458920_company_COC.pdf", type: "COC", owner: DOCUMENT_OWNERS.COMPANY, detectedOrder: "ORD-458920", confidence: 0.92 },
-  { name: "ORD-458920_supplier_COC.pdf", type: "COC", owner: DOCUMENT_OWNERS.SUPPLIER, detectedOrder: "ORD-458920", confidence: 0.89 },
-  { name: "ORD-459104_packing_list.pdf", type: "Packing List", detectedOrder: "ORD-459104", confidence: 0.94 },
-  { name: "ORD-459104_inspection_sheet.pdf", type: "Inspection Sheet", detectedOrder: "ORD-459104", confidence: 0.97 },
-  { name: "ORD-459104_company_COA.pdf", type: "COA", owner: DOCUMENT_OWNERS.COMPANY, detectedOrder: "ORD-459104", confidence: 0.95 },
-  { name: "ORD-459104_supplier_COA.pdf", type: "COA", owner: DOCUMENT_OWNERS.SUPPLIER, detectedOrder: "ORD-459104", confidence: 0.95 },
-  { name: "ORD-459104_company_COC.pdf", type: "COC", owner: DOCUMENT_OWNERS.COMPANY, detectedOrder: "ORD-459104", confidence: 0.95 },
-  { name: "ORD-459104_supplier_COC.pdf", type: "COC", owner: DOCUMENT_OWNERS.SUPPLIER, detectedOrder: "ORD-459104", confidence: 0.95 },
-  { name: "ORD-459221_logger_report.pdf", type: "Data Logger Report", detectedOrder: "ORD-459221", confidence: 0.91 },
-  { name: "ORD-459221_label_photo.png", type: "Label Image", detectedOrder: "ORD-459221", confidence: 0.72 },
-];
+// ---------------------------------------------------------------------------
+// Utility Helpers
+// ---------------------------------------------------------------------------
+
+function byId(id) {
+  return document.getElementById(id);
+}
 
 function normalizeOrder(value) {
   return String(value || "").toUpperCase().replace(/^ORD-?/, "").replace(/^SO-?/, "").replace(/^0+/, "").replace(/[^A-Z0-9]/g, "");
@@ -587,94 +72,41 @@ function normalizeId(value) {
   return String(value || "").toUpperCase().replace(/\s+/g, "").replace(/[^A-Z0-9]/g, "");
 }
 
-function unique(values) {
-  return [...new Set(values)];
-}
-
 function valueOrBlank(value) {
   return value === null || value === undefined || value === "" ? "Blank" : String(value);
 }
 
-function signedText(value) {
-  return value ? "Signed" : "Unsigned";
+function isResolvedValue(value) {
+  return value !== null && value !== undefined && value !== "";
 }
 
-function listRaw(items) {
-  return items.map((item) => item.value).join(", ");
+function numberOrNull(value) {
+  if (value === null || value === undefined) return null;
+  const clean = String(value).trim();
+  if (!clean || clean.toUpperCase() === "NULL") return clean.toUpperCase() === "NULL" ? "NULL" : null;
+  const parsed = Number(clean);
+  return Number.isFinite(parsed) ? parsed : null;
 }
 
-function listValues(items) {
-  return items.map((item) => `${item.value} (${item.source})`).join(", ");
+function findFirst(text, regex) {
+  const match = String(text || "").match(regex);
+  if (!match) return null;
+  return match.length > 1 ? String(match[1]).trim() : String(match[0]).trim();
 }
 
-function result(passed, field, expected, extracted, action) {
-  return {
-    passed,
-    field,
-    expected,
-    extracted,
-    action: passed ? "No action required." : action,
-  };
+function findAll(text, regex) {
+  return [...String(text || "").matchAll(regex)].map((match) => String(match[1] || match[0]).trim()).filter(Boolean);
 }
 
-function evaluateCase(qaCase) {
-  const results = rules.map((rule) => ({ ...rule, ...rule.run(qaCase) }));
-  const failed = results.filter((item) => !item.passed);
-  const critical = failed.filter((item) => item.severity === "Critical");
-  const high = failed.filter((item) => item.severity === "High");
-  const certificateDecision = getCertificateDecision(qaCase);
-
-  let recommendation = "Ready for QA Release";
-  if (certificateDecision.overallStatus === "FAIL" || critical.length > 0) recommendation = "Compliance Hold";
-  else if (high.length > 0) recommendation = "Correction Required";
-  else if (failed.length > 0) recommendation = "QA Review Required";
-
-  return { results, failed, critical, high, recommendation, certificateDecision };
-}
-
-function getMissingFieldActions() {
-  return cases.flatMap((qaCase) => {
-    const missing = [];
-    if (qaCase.extracted.inspection.amountPerCase === null || qaCase.extracted.inspection.amountPerCase === undefined || qaCase.extracted.inspection.amountPerCase === "") {
-      missing.push({
-        caseId: qaCase.id,
-        orderId: qaCase.orderId,
-        field: "Amount per case",
-        path: "amountPerCase",
-        source: "Inspection Sheet",
-        recommended: qaCase.oracle.caseQuantity,
-      });
-    }
-    if (qaCase.extracted.inspection.fullCasesReceived === null || qaCase.extracted.inspection.fullCasesReceived === undefined || qaCase.extracted.inspection.fullCasesReceived === "") {
-      missing.push({
-        caseId: qaCase.id,
-        orderId: qaCase.orderId,
-        field: "Full cases received",
-        path: "fullCasesReceived",
-        source: "Inspection Sheet",
-        recommended: 0,
-      });
-    }
-    return missing;
-  });
-}
-
-function groupUploadedFiles() {
-  const files = state.uploadedFiles.length ? state.uploadedFiles : demoUploadFiles;
-  return files.reduce((groups, file) => {
-    const key = file.detectedOrder || "Pending OCR";
-    groups[key] = groups[key] || [];
-    groups[key].push(file);
-    return groups;
-  }, {});
+function unique(values) {
+  return [...new Set(values)];
 }
 
 function statusClass(status) {
-  const normalized = status.toLowerCase();
-  if (normalized === "pass" || normalized.includes("ready") || normalized.includes("pass") || normalized.includes("within")) return "good";
-  if (normalized === "fail") return "bad";
-  if (normalized.includes("review") || normalized.includes("missing fields") || normalized.includes("low")) return "warn";
-  if (normalized.includes("hold") || normalized.includes("missing") || normalized.includes("unsigned") || normalized.includes("excursion") || normalized.includes("correction")) return "bad";
+  const normalized = String(status || "").toLowerCase();
+  if (normalized === "pass" || normalized.includes("ready") || normalized.includes("within")) return "good";
+  if (normalized === "fail" || normalized.includes("hold") || normalized.includes("missing") || normalized.includes("unsigned") || normalized.includes("excursion") || normalized.includes("correction")) return "bad";
+  if (normalized.includes("review") || normalized.includes("low") || normalized.includes("pending")) return "warn";
   return "neutral";
 }
 
@@ -692,462 +124,293 @@ function icon(name) {
   return `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${icons[name]}"></path></svg>`;
 }
 
-function render() {
-  const selected = cases.find((qaCase) => qaCase.id === state.selectedCaseId);
-  const selectedEval = evaluateCase(selected);
-  const evaluatedCases = cases.map((qaCase) => ({ ...qaCase, evaluation: evaluateCase(qaCase) }));
-  const openExceptions = evaluatedCases.flatMap((qaCase) =>
-    qaCase.evaluation.failed.map((failure) => ({ caseId: qaCase.id, orderId: qaCase.orderId, priority: qaCase.priority, ...failure }))
-  );
+// ---------------------------------------------------------------------------
+// Document Classification and OCR
+// ---------------------------------------------------------------------------
 
-  document.getElementById("app").innerHTML = `
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">GenAI QA Release Intelligence</p>
-        <h1>Document Verification & Product Release Dashboard</h1>
-      </div>
-      <div class="system-card">
-        ${icon("shield")}
-        <div>
-          <strong>Decision Support</strong>
-          <span>AI extracts. Rules validate. QA approves.</span>
-        </div>
-      </div>
-    </header>
-
-    <main class="layout">
-      <aside class="sidebar">
-        <button class="nav-item ${state.tab === "upload" ? "active" : ""}" data-tab="upload">${icon("scan")}Process Documents</button>
-        <button class="nav-item ${state.tab === "overview" ? "active" : ""}" data-tab="overview">${icon("queue")}Release Queue</button>
-        <button class="nav-item ${state.tab === "exceptions" ? "active" : ""}" data-tab="exceptions">${icon("alert")}Exceptions</button>
-        <button class="nav-item ${state.tab === "architecture" ? "active" : ""}" data-tab="architecture">${icon("database")}Architecture</button>
-        <div class="sidebar-note">
-          <strong>MVP Focus</strong>
-          <span>Order ID extraction, data logger counting, inspection gaps, Company-vs-Supplier COA/COC validation, and Oracle checks.</span>
-        </div>
-      </aside>
-
-      <section class="content">
-        ${state.tab === "upload" ? renderUploadWorkflow(evaluatedCases) : ""}
-        ${state.tab === "overview" ? renderOverview(evaluatedCases, selected, selectedEval) : ""}
-        ${state.tab === "exceptions" ? renderExceptions(openExceptions) : ""}
-        ${state.tab === "architecture" ? renderArchitecture() : ""}
-      </section>
-    </main>
-  `;
-
-  bindEvents();
-}
-
-function renderOverview(evaluatedCases, selected, selectedEval) {
-  return `
-    <section class="metrics">
-      ${metric("Cases Pending QA", cases.length, "clock")}
-      ${metric("Ready for Release", evaluatedCases.filter((item) => item.evaluation.recommendation === "Ready for QA Release").length, "check")}
-      ${metric("Compliance Holds", evaluatedCases.filter((item) => item.evaluation.recommendation === "Compliance Hold").length, "alert")}
-      ${metric("Open Exceptions", evaluatedCases.reduce((sum, item) => sum + item.evaluation.failed.length, 0), "file")}
-    </section>
-
-    <section class="split">
-      <div class="panel queue-panel">
-        <div class="panel-title">
-          <h2>QA Release Queue</h2>
-          <span>Click a case to inspect validation evidence</span>
-        </div>
-        <div class="case-list">
-          ${evaluatedCases.map(renderCaseRow).join("")}
-        </div>
-      </div>
-
-      <div class="panel recommendation ${statusClass(selectedEval.recommendation)}">
-        <span class="pill ${statusClass(selectedEval.recommendation)}">${selectedEval.recommendation}</span>
-        <h2>${selected.id} · ${selected.orderId}</h2>
-        <p>${recommendationText(selected, selectedEval)}</p>
-        <div class="case-meta">
-          <span>${selected.product}</span>
-          <span>Lot ${selected.lot}</span>
-          <span>Certificate Result ${selectedEval.certificateDecision.overallStatus}</span>
-          <span>${selected.priority}</span>
-          <span>${selected.ageHours}h pending</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="detail-grid">
-      ${renderDocumentChecklist(selected)}
-      ${renderOrderExtraction(selected)}
-      ${renderDataLoggers(selected)}
-      ${renderFieldComparison(selected)}
-      ${renderCertificateComparison(selected, selectedEval)}
-      ${renderRules(selectedEval)}
-      ${renderAudit(selected)}
-    </section>
-  `;
-}
-
-function metric(label, value, iconName) {
-  return `
-    <div class="metric">
-      ${icon(iconName)}
-      <span>${label}</span>
-      <strong>${value}</strong>
-    </div>
-  `;
-}
-
-function renderUploadWorkflow(evaluatedCases) {
-  const missing = getMissingFieldActions();
-  return `
-    <section class="workflow">
-      <div class="stepper">
-        ${step("1", "Upload", state.stage === "intake" || state.stage === "processing" || state.stage === "review" || state.stage === "complete")}
-        ${step("2", "AI Processing", state.stage === "processing" || state.stage === "review" || state.stage === "complete")}
-        ${step("3", "Resolve Missing Fields", state.stage === "review" || state.stage === "complete")}
-        ${step("4", "Dashboard", state.stage === "complete")}
-      </div>
-
-      ${state.stage === "intake" ? renderIntake() : ""}
-      ${state.stage === "processing" ? renderProcessing() : ""}
-      ${state.stage === "review" ? renderMissingReview(missing) : ""}
-      ${state.stage === "complete" ? renderProcessComplete(evaluatedCases) : ""}
-    </section>
-  `;
-}
-
-function step(number, label, active) {
-  return `
-    <div class="step ${active ? "active" : ""}">
-      <span>${number}</span>
-      <strong>${label}</strong>
-    </div>
-  `;
-}
-
-function renderIntake() {
-  const groups = groupUploadedFiles();
-  const files = state.uploadedFiles.length ? state.uploadedFiles : demoUploadFiles;
-  return `
-    <section class="panel full upload-panel">
-      <div class="panel-title">
-        <h2>Bulk QA Document Intake</h2>
-        <span>Upload documents for one or many orders. The prototype groups them by detected Order ID.</span>
-      </div>
-      <div class="upload-body">
-        <label class="drop-zone">
-          ${icon("file")}
-          <strong>Drop or select QA documents</strong>
-          <span>Packing lists, inspection sheets, labels, Company/Supplier COA, Company/Supplier COC (Certificate of Compliance), and data logger reports can be processed together.</span>
-          <input id="documentUpload" type="file" multiple />
-        </label>
-
-        <div class="action-row">
-          <button class="primary-action" data-action="use-demo">Use Demo Batch</button>
-          <button class="primary-action" data-action="process" ${files.length ? "" : "disabled"}>Start AI Processing</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="split">
-      <div class="panel">
-        <div class="panel-title">
-          <h2>Detected Upload Batch</h2>
-          <span>${files.length} document(s) ready</span>
-        </div>
-        <table>
-          <thead><tr><th>File</th><th>Document Type</th><th>Owner</th><th>Detected Order</th><th>Confidence</th></tr></thead>
-          <tbody>
-            ${files.map((file) => `
-              <tr>
-                <td>${file.name}</td>
-                <td>${file.type}</td>
-                <td>${file.owner || "N/A"}</td>
-                <td>${file.detectedOrder}</td>
-                <td>${Math.round(file.confidence * 100)}%</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
-      </div>
-      <div class="panel">
-        <div class="panel-title">
-          <h2>Smart Order Grouping</h2>
-          <span>Documents are separated before validation</span>
-        </div>
-        <div class="group-list">
-          ${Object.entries(groups).map(([orderId, groupedFiles]) => `
-            <button class="group-card" data-order="${orderId}">
-              <span class="pill ${statusClass("review")}">${groupedFiles.length} docs</span>
-              <strong>${orderId}</strong>
-              <small>${groupedFiles.map((file) => `${file.owner ? `${file.owner} ` : ""}${file.type}`).join(", ")}</small>
-            </button>
-          `).join("")}
-        </div>
-      </div>
-    </section>
-  `;
-}
-
-function renderProcessing() {
-  const groups = groupUploadedFiles();
-  return `
-    <section class="panel full processing-panel">
-      <div class="panel-title">
-        <h2>AI Processing in Progress</h2>
-        <span>Simulated OCR, NLP extraction, normalization, and rules execution</span>
-      </div>
-      <div class="process-grid">
-        ${processCard("Document Classification", "Complete", "Files identified as packing list, inspection sheet, label, Company/Supplier COA, Company/Supplier COC, and logger report.")}
-        ${processCard("Order ID Grouping", "Complete", `${Object.keys(groups).length} order group(s) detected from the uploaded batch.`)}
-        ${processCard("OCR + GenAI Extraction", "Complete", "Order IDs, data logger numbers, label fields, COA specifications/results, and COC commitments/declarations extracted.")}
-        ${processCard("Rules Engine", "Complete", "Oracle, inspection, logger, label, and certificate checks executed separately per order.")}
-      </div>
-      <div class="process-log">
-        ${state.processLog.map((item) => `<div>${icon("check")}<span>${item}</span></div>`).join("")}
-      </div>
-    </section>
-  `;
-}
-
-function processCard(title, status, body) {
-  return `
-    <div class="process-card">
-      <span class="pill good">${status}</span>
-      <h2>${title}</h2>
-      <p>${body}</p>
-    </div>
-  `;
-}
-
-function renderMissingReview(missing) {
-  if (!missing.length) {
-    return `
-      <section class="panel full">
-        <div class="empty-state">
-          ${icon("check")}
-          <h2>No Missing Fields Found</h2>
-          <p>All required inspection fields are complete. Continue to the dashboard for release review.</p>
-          <button class="primary-action" data-action="complete">Go to Dashboard</button>
-        </div>
-      </section>
-    `;
-  }
-
-  return `
-    <section class="panel full">
-      <div class="panel-title">
-        <h2>Missing Field Resolution</h2>
-        <span>QA must fill the value or intentionally set 0 / NULL before dashboard release review.</span>
-      </div>
-      <table>
-        <thead><tr><th>Order</th><th>Field</th><th>Source</th><th>Current Value</th><th>Actions</th></tr></thead>
-        <tbody>
-          ${missing.map((item) => `
-            <tr>
-              <td>${item.orderId}</td>
-              <td>${item.field}</td>
-              <td>${item.source}</td>
-              <td><span class="pill bad">Empty</span></td>
-              <td>
-                <div class="field-actions">
-                  <input type="number" placeholder="Enter value" data-fill-input="${item.caseId}:${item.path}" />
-                  <button data-fill="${item.caseId}:${item.path}">Fill</button>
-                  <button data-default-zero="${item.caseId}:${item.path}">Use 0</button>
-                  <button data-default-null="${item.caseId}:${item.path}">Use NULL</button>
-                </div>
-              </td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-      <div class="review-footer">
-        <p>Using 0 or NULL is captured as a QA action in the audit trail so the decision is traceable.</p>
-        <button class="primary-action" data-action="complete" ${getMissingFieldActions().length ? "disabled" : ""}>Go to Dashboard</button>
-      </div>
-    </section>
-  `;
-}
-
-function renderProcessComplete(evaluatedCases) {
-  return `
-    <section class="panel full">
-      <div class="panel-title">
-        <h2>Processing Complete</h2>
-        <span>Each order is now available separately in the QA release queue.</span>
-      </div>
-      <div class="completion-grid">
-        ${evaluatedCases.map((qaCase) => `
-          <button class="completion-card" data-open-case="${qaCase.id}">
-            <span class="pill ${statusClass(qaCase.evaluation.recommendation)}">${qaCase.evaluation.recommendation}</span>
-            <strong>${qaCase.orderId}</strong>
-            <small>${qaCase.evaluation.failed.length} exception(s) · ${qaCase.product}</small>
-          </button>
-        `).join("")}
-      </div>
-      <div class="action-row">
-        <button class="primary-action" data-tab="overview">Open Release Dashboard</button>
-      </div>
-    </section>
-  `;
-}
-
-function inferDocumentType(fileName) {
-  const lower = fileName.toLowerCase();
-  if (lower.includes("packing")) return "Packing List";
-  if (lower.includes("inspection")) return "Inspection Sheet";
-  if (lower.includes("label")) return "Label Image";
-  if (lower.includes("logger") || lower.includes("temperature")) return "Data Logger Report";
-  if (lower.includes("coa")) return "COA";
-  if (lower.includes("coc")) return "COC";
-  return "Supporting Document";
+function inferDocumentType(fileName, text = "") {
+  const source = `${fileName} ${text}`.toLowerCase();
+  if (source.includes("packing")) return DOCUMENT_TYPES.PACKING_LIST;
+  if (source.includes("inspection")) return DOCUMENT_TYPES.INSPECTION_SHEET;
+  if (source.includes("label")) return DOCUMENT_TYPES.LABEL_IMAGE;
+  if (source.includes("logger") || source.includes("temperature data")) return DOCUMENT_TYPES.DATA_LOGGER_REPORT;
+  if (source.includes("coa") || source.includes("certificate of analysis") || source.includes("certificate_of_analysis")) return DOCUMENT_TYPES.COA;
+  if (source.includes("coc") || source.includes("certificate of compliance") || source.includes("certificate_of_compliance")) return DOCUMENT_TYPES.COC;
+  return DOCUMENT_TYPES.SUPPORTING;
 }
 
 function inferDocumentOwner(fileName, text = "") {
-  const combined = `${fileName} ${text}`.toLowerCase();
-  if (/\b(company|approved|master|internal|committed|specification|spec)\b/.test(combined)) return DOCUMENT_OWNERS.COMPANY;
-  if (/\b(supplier|vendor|manufacturer|provided)\b/.test(combined)) return DOCUMENT_OWNERS.SUPPLIER;
+  const lowerName = String(fileName || "").toLowerCase();
+  const rawText = String(text || "");
+  const lowerText = rawText.toLowerCase();
+
+  // Explicit owner signals win over broad words. Supplier documents often
+  // mention company specifications, so scanning for "company" first is unsafe.
+  if (/\bsupplier\b|supplier_|_supplier|vendor|manufacturer/.test(lowerName)) return DOCUMENT_OWNERS.SUPPLIER;
+  if (/\bcompany\b|company_|_company|internal|master/.test(lowerName)) return DOCUMENT_OWNERS.COMPANY;
+
+  const explicitOwner = rawText.match(/Document Owner:\s*(COMPANY|SUPPLIER)/i);
+  if (explicitOwner) return explicitOwner[1].toUpperCase();
+  if (/^\s*SUPPLIER\s+Certificate/im.test(rawText) || /Supplier-provided/i.test(rawText)) return DOCUMENT_OWNERS.SUPPLIER;
+  if (/^\s*COMPANY\s+Certificate/im.test(rawText) || /Company-approved/i.test(rawText)) return DOCUMENT_OWNERS.COMPANY;
+  if (/\b(supplier|vendor|manufacturer|provided)\b/.test(lowerText)) return DOCUMENT_OWNERS.SUPPLIER;
+  if (/\b(company-approved|approved company reference|master specification|internal specification)\b/.test(lowerText)) return DOCUMENT_OWNERS.COMPANY;
+
   return DOCUMENT_OWNERS.SUPPLIER;
 }
 
-function inferOrderId(fileName, index) {
-  const match = fileName.toUpperCase().match(/ORD[-_ ]?\d{6}/);
-  if (match) return match[0].replace("_", "-").replace(" ", "-");
-  return cases[index % cases.length].orderId;
+function inferOrderId(fileName, text = "") {
+  const found = findFirst(text, /(?:Order ID|Order No\.|Oracle Order|Sales Order|Customer Order|Order Reference|PO \/ Order Ref):?\s*([A-Z]{2,4}[- ]?\d{6})/i);
+  if (found) return found;
+  const fileMatch = String(fileName || "").toUpperCase().match(/ORD[-_ ]?\d{6}/);
+  return fileMatch ? fileMatch[0].replace("_", "-").replace(" ", "-") : "Pending OCR";
 }
 
-function extractPdfStrings(rawText) {
-  const values = [];
-  const regex = /\((?:\\.|[^\\)])*\)\s*Tj/g;
-  let match;
-  while ((match = regex.exec(rawText))) {
-    const value = match[0]
-      .replace(/\)\s*Tj$/, "")
-      .replace(/^\(/, "")
-      .replace(/\\\(/g, "(")
-      .replace(/\\\)/g, ")")
-      .replace(/\\\\/g, "\\")
-      .trim();
-    if (value) values.push(value);
+function setPdfWorkerIfAvailable() {
+  if (window.pdfjsLib && !window.pdfjsLib.GlobalWorkerOptions.workerSrc) {
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
   }
-  return values.length ? values.join("\n") : rawText;
 }
 
-async function readUploadedDocument(upload) {
-  if (!upload.file) return { ...upload, text: "" };
-  const buffer = await upload.file.arrayBuffer();
-  const raw = new TextDecoder("latin1").decode(buffer);
-  const text = extractPdfStrings(raw);
+async function performRealOcr(upload) {
+  if (!upload.file) return { text: "", method: "none", confidence: 0 };
+  const mime = upload.file.type || "";
+  const lowerName = upload.name.toLowerCase();
+
+  if (mime.includes("pdf") || lowerName.endsWith(".pdf")) return ocrPdf(upload.file, upload.name);
+  if (mime.startsWith("image/") || /\.(png|jpe?g|tif?f|bmp|webp)$/i.test(lowerName)) return ocrImage(upload.file, upload.name);
+  return { text: "", method: "unsupported", confidence: 0 };
+}
+
+async function ocrImage(file, fileName) {
+  ensureTesseractAvailable();
+  state.ocrProgress.push(`OCR started for image ${fileName}`);
+  const result = await Tesseract.recognize(file, "eng", {
+    logger: (message) => recordOcrProgress(fileName, message),
+  });
+  state.ocrProgress.push(`OCR completed for image ${fileName}`);
+  return { text: result.data.text || "", method: "tesseract-image", confidence: Math.round(result.data.confidence || 0) / 100 };
+}
+
+async function ocrPdf(file, fileName) {
+  ensurePdfJsAvailable();
+  ensureTesseractAvailable();
+  setPdfWorkerIfAvailable();
+
+  const data = await file.arrayBuffer();
+  const pdf = await window.pdfjsLib.getDocument({ data }).promise;
+  const pageTexts = [];
+  state.ocrProgress.push(`OCR started for PDF ${fileName} (${pdf.numPages} page${pdf.numPages === 1 ? "" : "s"})`);
+
+  for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+    const page = await pdf.getPage(pageNumber);
+    const textLayer = await page.getTextContent();
+    const digitalText = textLayer.items.map((item) => item.str).join("\n");
+
+    const viewport = page.getViewport({ scale: 2 });
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
+
+    await page.render({ canvasContext: context, viewport }).promise;
+    const ocrResult = await Tesseract.recognize(canvas, "eng", {
+      logger: (message) => recordOcrProgress(`${fileName} page ${pageNumber}`, message),
+    });
+    pageTexts.push([digitalText, ocrResult.data.text || ""].filter(Boolean).join("\n"));
+  }
+
+  state.ocrProgress.push(`OCR completed for PDF ${fileName}`);
+  return { text: pageTexts.join("\n"), method: "pdfjs-text+pdfjs-render+tesseract", confidence: 0.9 };
+}
+
+function ensurePdfJsAvailable() {
+  if (!window.pdfjsLib) throw new Error("PDF.js is not loaded. Start the app through the local server and check network access.");
+}
+
+function ensureTesseractAvailable() {
+  if (!window.Tesseract) throw new Error("Tesseract.js is not loaded. Start the app through the local server and check network access.");
+}
+
+function recordOcrProgress(label, message) {
+  if (!message || message.status !== "recognizing text") return;
+  const progressLine = `${label}: OCR ${Math.round((message.progress || 0) * 100)}%`;
+  state.ocrProgress = [...state.ocrProgress.filter((item) => !item.startsWith(`${label}: OCR`)), progressLine].slice(-8);
+}
+
+// ---------------------------------------------------------------------------
+// Extraction Pipeline
+// ---------------------------------------------------------------------------
+
+async function extractDocumentWithNlp(upload, ocrText) {
+  const modelExtraction = await tryGenAiExtraction(upload, ocrText);
+  return modelExtraction || extractDocumentLocally(upload, ocrText);
+}
+
+async function tryGenAiExtraction(upload, ocrText) {
+  try {
+    const response = await fetch(GEN_AI_CONFIG.extractionEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ file_name: upload.name, document_type_hint: upload.type, ocr_text: ocrText }),
+    });
+    if (!response.ok) return null;
+    return response.json();
+  } catch {
+    return null;
+  }
+}
+
+function extractDocumentLocally(upload, text) {
   return {
-    ...upload,
-    text,
-    type: inferDocumentTypeFromText(text, upload.name),
-    owner: inferDocumentOwner(upload.name, text),
-    detectedOrder: findFirst(text, /(?:Order ID|Order No\.|Oracle Order|Sales Order|Customer Order|Order Reference|PO \/ Order Ref|Customer Order):?\s*([A-Z]{2,4}[- ]?\d{6})/i) || inferOrderId(upload.name, 0),
-    confidence: text ? 0.96 : upload.confidence,
+    document_type: inferDocumentType(upload.name, text),
+    document_owner: inferDocumentOwner(upload.name, text),
+    order_id: inferOrderId(upload.name, text),
+    fields: {
+      lot: findFirst(text, /Lot(?: Number)?:?\s*([A-Z0-9-]+)/i) || findFirst(text, /LOT:\s*([A-Z0-9-]+)/i),
+      ndc: findFirst(text, /NDC:?\s*([0-9-]+)/i),
+      expiry: findFirst(text, /Expiration Date:?\s*([0-9-]+)/i) || findFirst(text, /EXP:\s*([0-9-]+)/i),
+      data_logger_numbers: findAll(text, /(?:Temp Logger|Device Serial No\.|Recorder ID|Serial Number|DL No\.|Logger ID):\s*([A-Z0-9 -]+)/gi),
+    },
+    confidence: text ? 0.86 : 0.2,
+    provider: "local-pattern-extractor",
   };
 }
 
-function inferDocumentTypeFromText(text, fileName) {
-  if (/Detailed Packing List/i.test(text)) return "Packing List";
-  if (/QA Inspection and Release Report/i.test(text)) return "Inspection Sheet";
-  if (/Product Label Image Simulation/i.test(text)) return "Label Image";
-  if (/Certificate of Analysis/i.test(text)) return "COA";
-  if (/Certificate of Compliance/i.test(text)) return "COC";
-  if (/Temperature Data Logger Report/i.test(text)) return "Data Logger Report";
-  return inferDocumentType(fileName);
+async function readUploadedDocument(upload) {
+  const ocr = await performRealOcr(upload);
+  const extraction = await extractDocumentWithNlp(upload, ocr.text);
+  return {
+    ...upload,
+    text: ocr.text,
+    ocrMethod: ocr.method,
+    extraction,
+    type: extraction.document_type,
+    owner: extraction.document_owner,
+    detectedOrder: extraction.order_id || inferOrderId(upload.name, ocr.text),
+    confidence: extraction.confidence || ocr.confidence || upload.confidence,
+  };
 }
 
-function findFirst(text, regex) {
-  const match = text.match(regex);
-  if (!match) return null;
-  return match.length > 1 ? String(match[1]).trim() : String(match[0]).trim();
+// ---------------------------------------------------------------------------
+// Certificate Parsing and Validation
+// ---------------------------------------------------------------------------
+
+function getOwnedCertificate(qaCase, documentType, owner) {
+  const candidates = qaCase.extracted.certificates.filter((doc) => doc.document_type === documentType && doc.document_owner === owner);
+  return candidates.sort((a, b) => (b.field_count || 0) - (a.field_count || 0))[0] || {
+    document_type: documentType,
+    document_owner: owner,
+    present: false,
+    signed: false,
+    fields: {},
+    field_count: 0,
+  };
 }
 
-function findAll(text, regex) {
-  return [...text.matchAll(regex)].map((match) => String(match[1] || match[0]).trim());
+function buildCertificateRecord(doc) {
+  const owner = doc.owner || inferDocumentOwner(doc.name, doc.text);
+  const fields = doc.type === DOCUMENT_TYPES.COA ? extractAnalyticalFields(doc.text, owner) : extractComplianceFields(doc.text, owner);
+  return {
+    document_type: doc.type,
+    document_owner: owner,
+    source_file: doc.name,
+    ocr_method: doc.ocrMethod,
+    extraction_provider: doc.extraction?.provider || "unknown",
+    present: Boolean(doc.text),
+    signed: isSignedCertificate(doc.type, doc.text),
+    field_count: countCertificateFields(fields),
+    fields,
+  };
 }
 
-function numberOrNull(value) {
-  if (value === null || value === undefined) return null;
-  const clean = String(value).trim();
-  if (!clean) return null;
-  const parsed = Number(clean);
-  return Number.isFinite(parsed) ? parsed : null;
+function isSignedCertificate(documentType, text) {
+  if (documentType === DOCUMENT_TYPES.COA) return /Quality Approval:\s*(?!\s*$).+/i.test(text) && !/Unsigned/i.test(text);
+  return /Signature:\s*(?!\s*$).+/i.test(text) && !/Unsigned/i.test(text);
 }
 
-function groupDocumentsByOrderOrLot(documents) {
-  const anchors = documents
-    .filter((doc) => ["Packing List", "Inspection Sheet", "Label Image", "Data Logger Report"].includes(doc.type))
-    .map((doc) => ({
-      orderId: findFirst(doc.text, /(?:Order ID|Order No\.|Oracle Order|Sales Order|Customer Order|Order Reference|PO \/ Order Ref):?\s*([A-Z]{2,4}[- ]?\d{6})/i) || doc.detectedOrder,
-      lot: findFirst(doc.text, /Lot(?: Number)?:?\s*([A-Z0-9-]+)/i) || findFirst(doc.text, /LOT:\s*([A-Z0-9-]+)/i),
-      product: findFirst(doc.text, /Product(?: Description)?:?\s*([^\n]+)/i),
-    }));
-
-  return documents.reduce((groups, doc) => {
-    const orderId = findFirst(doc.text, /(?:Order ID|Order No\.|Oracle Order|Sales Order|Customer Order|Order Reference|PO \/ Order Ref):?\s*([A-Z]{2,4}[- ]?\d{6})/i) || doc.detectedOrder;
-    const lot = findFirst(doc.text, /Lot(?: Number)?:?\s*([A-Z0-9-]+)/i) || findFirst(doc.text, /LOT:\s*([A-Z0-9-]+)/i);
-    const product = findFirst(doc.text, /Product(?: Description)?:?\s*([^\n]+)/i);
-    const anchor = anchors.find((item) => item.lot && lot && normalizeId(item.lot) === normalizeId(lot) && item.product && product && item.product === product);
-    const key = doc.type === "COA" || doc.type === "COC" ? (anchor?.orderId || orderId) : orderId;
-    groups[key] = groups[key] || [];
-    groups[key].push(doc);
-    return groups;
-  }, {});
-}
-
-function docOf(docs, type) {
-  return docs.find((doc) => doc.type === type) || { text: "", type, name: `${type} missing` };
-}
-
-function ownedDocOf(docs, type, owner) {
-  return docs.find((doc) => doc.type === type && doc.owner === owner) || { text: "", type, owner, name: `${owner} ${type} missing` };
+function countCertificateFields(fields) {
+  return Object.values(fields || {}).reduce((sum, group) => {
+    if (!group || typeof group !== "object") return sum;
+    return sum + Object.values(group).filter(isResolvedValue).length;
+  }, 0);
 }
 
 function extractAnalyticalFields(text, owner) {
-  if (!text) return owner === DOCUMENT_OWNERS.COMPANY ? { specifications: {} } : { results: {} };
+  const table = parsePipeDelimitedRows(text);
   if (owner === DOCUMENT_OWNERS.COMPANY) {
     return {
       specifications: {
-        assay: extractSpecRule(text, "Assay", { rule: "range", min: 95, max: 105, unit: "%" }),
-        purity: extractSpecRule(text, "Purity", { rule: "min", min: 98, unit: "%" }),
-        pH: extractSpecRule(text, "pH", { rule: "range", min: 6.8, max: 7.4 }),
-        moisture: extractSpecRule(text, "Moisture", { rule: "max", max: 2, unit: "%" }),
-        viscosity: extractSpecRule(text, "Viscosity", { rule: "range", min: 10, max: 14, unit: "cP" }),
-        microbiology: { rule: "exact", value: findFirst(text, /Microbiology\s*\|\s*([^|\n]+)/i) || "Conforms" },
-        heavyMetals: { rule: "exact", value: findFirst(text, /Heavy Metals\s*\|\s*([^|\n]+)/i) || "Conforms" },
-        density: extractSpecRule(text, "Density", { rule: "range", min: 0.98, max: 1.03, unit: "g/mL" }),
-        appearance: { rule: "exact", value: findFirst(text, /Appearance\s*\|\s*([^|\n]+)/i) || "Clear" },
+        assay: specRuleFromRow(table.assay, { rule: "range", min: 95, max: 105, unit: "%" }),
+        purity: specRuleFromRow(table.purity, { rule: "min", min: 98, unit: "%" }),
+        pH: specRuleFromRow(table.pH, { rule: "range", min: 6.8, max: 7.4 }),
+        moisture: specRuleFromRow(table.moisture, { rule: "max", max: 2, unit: "%" }),
+        viscosity: specRuleFromRow(table.viscosity, { rule: "range", min: 10, max: 14, unit: "cP" }),
+        microbiology: { rule: "exact", value: table.microbiology?.specification || "Conforms" },
+        heavyMetals: { rule: "exact", value: table.heavyMetals?.specification || "Conforms" },
+        density: specRuleFromRow(table.density, { rule: "range", min: 0.98, max: 1.03, unit: "g/mL" }),
+        appearance: { rule: "exact", value: table.appearance?.specification || "Clear" },
       },
     };
   }
+
   return {
     results: {
-      assay: numberOrText(findFirst(text, /Assay\s*\|[^|\n]*\|\s*([^|\n]+)/i)),
-      purity: numberOrText(findFirst(text, /Purity\s*\|[^|\n]*\|\s*([^|\n]+)/i)),
-      pH: numberOrText(findFirst(text, /pH\s*\|[^|\n]*\|\s*([^|\n]+)/i)),
-      moisture: numberOrText(findFirst(text, /Moisture\s*\|[^|\n]*\|\s*([^|\n]+)/i)),
-      viscosity: numberOrText(findFirst(text, /Viscosity\s*\|[^|\n]*\|\s*([^|\n]+)/i)),
-      microbiology: findFirst(text, /Microbiology\s*\|[^|\n]*\|\s*([^|\n]+)/i) || "Conforms",
-      heavyMetals: findFirst(text, /Heavy Metals\s*\|[^|\n]*\|\s*([^|\n]+)/i) || "Conforms",
-      density: numberOrText(findFirst(text, /Density\s*\|[^|\n]*\|\s*([^|\n]+)/i)),
-      appearance: findFirst(text, /Appearance\s*\|[^|\n]*\|\s*([^|\n]+)/i) || "Clear",
+      assay: numberOrText(table.assay?.result),
+      purity: numberOrText(table.purity?.result),
+      pH: numberOrText(table.pH?.result),
+      moisture: numberOrText(table.moisture?.result),
+      viscosity: numberOrText(table.viscosity?.result),
+      microbiology: table.microbiology?.result,
+      heavyMetals: table.heavyMetals?.result,
+      density: numberOrText(table.density?.result),
+      appearance: table.appearance?.result,
     },
   };
 }
 
-function numberOrText(value) {
-  const parsed = numberOrNull(value);
-  return parsed === null ? value : parsed;
+function parsePipeDelimitedRows(text) {
+  const rows = {};
+  String(text || "").replace(/[¦]/g, "|").split("\n").forEach((line) => {
+    const cells = line.split("|").map((cell) => cell.trim()).filter(Boolean);
+    if (cells.length < 3) return;
+    const fieldKey = analyticalFieldKey(cells[0]);
+    if (!fieldKey) return;
+    rows[fieldKey] = { field: cells[0], specification: cells[1], result: cells[2], status: cells[3] || "" };
+  });
+  return rows;
 }
 
-function extractSpecRule(text, label, fallback) {
-  const spec = findFirst(text, new RegExp(`${label}\\s*\\|\\s*([^|\\n]+)`, "i"));
-  if (!spec) return fallback;
-  const range = spec.match(/([0-9.]+)\s*[-–]\s*([0-9.]+)/);
+function analyticalFieldKey(label) {
+  const normalized = normalizeId(label);
+  if (normalized.includes("ASSAY") || normalized.includes("POTENCY")) return "assay";
+  if (normalized.includes("PURITY")) return "purity";
+  if (normalized === "PH") return "pH";
+  if (normalized.includes("MOISTURE")) return "moisture";
+  if (normalized.includes("VISCOSITY")) return "viscosity";
+  if (normalized.includes("MICROBIOLOGY")) return "microbiology";
+  if (normalized.includes("HEAVYMETAL")) return "heavyMetals";
+  if (normalized.includes("DENSITY")) return "density";
+  if (normalized.includes("APPEARANCE")) return "appearance";
+  return null;
+}
+
+function numberOrText(value) {
+  const parsed = numberOrNull(value);
+  return parsed === null ? value ?? null : parsed;
+}
+
+function specRuleFromRow(row, fallback) {
+  if (!row?.specification) return fallback;
+  return extractSpecRule(row.specification, fallback);
+}
+
+function extractSpecRule(specification, fallback) {
+  const range = specification.match(/([0-9.]+)\s*[-–]\s*([0-9.]+)/);
   if (range) return { rule: "range", min: Number(range[1]), max: Number(range[2]), unit: fallback.unit };
-  const min = spec.match(/(?:>=|NLT|not less than|min)\s*([0-9.]+)/i);
+  const min = specification.match(/(?:>=|NLT|not less than|min)\s*([0-9.]+)/i);
   if (min) return { rule: "min", min: Number(min[1]), unit: fallback.unit };
-  const max = spec.match(/(?:<=|NMT|not more than|max)\s*([0-9.]+)/i);
+  const max = specification.match(/(?:<=|NMT|not more than|max)\s*([0-9.]+)/i);
   if (max) return { rule: "max", max: Number(max[1]), unit: fallback.unit };
   return fallback;
 }
@@ -1163,7 +426,7 @@ function extractComplianceFields(text, owner) {
     countryOfOrigin: findFirst(text, /Country of Origin:?\s*([^\n]+)/i),
     agreedCommitments: findFirst(text, /Agreed Commitments:?\s*([^\n]+)/i) || findFirst(text, /Certification Statement:?\s*([^\n]+)/i),
   };
-  const defaultValues = {
+  const defaults = {
     gmpCompliance: "Compliant",
     isoCompliance: "ISO 13485",
     regulatoryDeclarations: "Compliant",
@@ -1173,108 +436,177 @@ function extractComplianceFields(text, owner) {
     countryOfOrigin: "Declared",
     agreedCommitments: "Compliant",
   };
-  return owner === DOCUMENT_OWNERS.COMPANY
-    ? { commitments: Object.fromEntries(COMPLIANCE_FIELDS.map((field) => [field, values[field] || defaultValues[field]])) }
-    : { declarations: Object.fromEntries(COMPLIANCE_FIELDS.map((field) => [field, values[field] || defaultValues[field]])) };
+  const key = owner === DOCUMENT_OWNERS.COMPANY ? "commitments" : "declarations";
+  return { [key]: Object.fromEntries(CERTIFICATE_FIELDS.compliance.map((field) => [field, owner === DOCUMENT_OWNERS.COMPANY ? values[field] || defaults[field] : values[field] || null])) };
 }
 
-function buildCertificateRecord(doc) {
-  const owner = doc.owner || inferDocumentOwner(doc.name, doc.text);
-  return {
-    document_type: doc.type,
-    document_owner: owner,
-    present: Boolean(doc.text),
-    signed: doc.type === "COA"
-      ? /Quality Approval:\s*(?!\s*$).+/i.test(doc.text) && !/Unsigned/i.test(doc.text)
-      : /Signature:\s*(?!\s*$).+/i.test(doc.text) && !/Unsigned/i.test(doc.text),
-    fields: doc.type === "COA" ? extractAnalyticalFields(doc.text, owner) : extractComplianceFields(doc.text, owner),
-  };
+function compareAnalyticalValue(fieldName, companyRule, supplierValue) {
+  if (!companyRule || !isResolvedValue(supplierValue)) {
+    return { fieldName, passed: false, expected: "Required specification/result", actual: valueOrBlank(supplierValue) };
+  }
+  if (companyRule.rule === "exact") {
+    const passed = normalizeId(supplierValue) === normalizeId(companyRule.value);
+    return { fieldName, passed, expected: companyRule.value, actual: supplierValue };
+  }
+  const numeric = Number(supplierValue);
+  const minOk = companyRule.min === undefined || numeric >= companyRule.min;
+  const maxOk = companyRule.max === undefined || numeric <= companyRule.max;
+  return { fieldName, passed: Number.isFinite(numeric) && minOk && maxOk, expected: formatSpec(companyRule), actual: `${supplierValue}${companyRule.unit ? ` ${companyRule.unit}` : ""}` };
+}
+
+function compareComplianceValue(fieldName, required, declared) {
+  if (!isResolvedValue(required) || !isResolvedValue(declared)) {
+    return { fieldName, passed: false, expected: valueOrBlank(required), actual: valueOrBlank(declared) };
+  }
+  const passed = normalizeId(required) === normalizeId(declared) || normalizeId(declared).includes(normalizeId(required));
+  return { fieldName, passed, expected: required, actual: declared };
+}
+
+function formatSpec(rule) {
+  if (rule.rule === "range") return `${rule.min} - ${rule.max}${rule.unit ? ` ${rule.unit}` : ""}`;
+  if (rule.rule === "min") return `>= ${rule.min}${rule.unit ? ` ${rule.unit}` : ""}`;
+  if (rule.rule === "max") return `<= ${rule.max}${rule.unit ? ` ${rule.unit}` : ""}`;
+  return String(rule.value ?? "Required");
+}
+
+function compareCoaDocuments(qaCase) {
+  const companyCoa = getOwnedCertificate(qaCase, DOCUMENT_TYPES.COA, DOCUMENT_OWNERS.COMPANY);
+  const supplierCoa = getOwnedCertificate(qaCase, DOCUMENT_TYPES.COA, DOCUMENT_OWNERS.SUPPLIER);
+  const details = [];
+
+  if (!companyCoa.present) details.push({ fieldName: "Company COA", passed: false, expected: "Present", actual: "Missing" });
+  if (!supplierCoa.present) details.push({ fieldName: "Supplier COA", passed: false, expected: "Present", actual: "Missing" });
+  if (supplierCoa.present && !supplierCoa.signed) details.push({ fieldName: "Supplier COA signature", passed: false, expected: "Signed/approved", actual: "Unsigned" });
+
+  const specs = companyCoa.fields?.specifications || {};
+  const results = supplierCoa.fields?.results || {};
+  CERTIFICATE_FIELDS.analytical.forEach((fieldName) => details.push(compareAnalyticalValue(fieldName, specs[fieldName], results[fieldName])));
+  return { status: details.every((item) => item.passed) ? "PASS" : "FAIL", details };
+}
+
+function compareCocDocuments(qaCase) {
+  const companyCoc = getOwnedCertificate(qaCase, DOCUMENT_TYPES.COC, DOCUMENT_OWNERS.COMPANY);
+  const supplierCoc = getOwnedCertificate(qaCase, DOCUMENT_TYPES.COC, DOCUMENT_OWNERS.SUPPLIER);
+  const details = [];
+
+  if (!companyCoc.present) details.push({ fieldName: "Company COC", passed: false, expected: "Present", actual: "Missing" });
+  if (!supplierCoc.present) details.push({ fieldName: "Supplier COC", passed: false, expected: "Present", actual: "Missing" });
+  if (supplierCoc.present && !supplierCoc.signed) details.push({ fieldName: "Supplier COC signature", passed: false, expected: "Signed/approved", actual: "Unsigned" });
+
+  const commitments = companyCoc.fields?.commitments || {};
+  const declarations = supplierCoc.fields?.declarations || {};
+  CERTIFICATE_FIELDS.compliance.forEach((fieldName) => details.push(compareComplianceValue(fieldName, commitments[fieldName], declarations[fieldName])));
+  return { status: details.every((item) => item.passed) ? "PASS" : "FAIL", details };
+}
+
+function getCertificateDecision(qaCase) {
+  const coaValidation = compareCoaDocuments(qaCase);
+  const cocValidation = compareCocDocuments(qaCase);
+  return { coaValidation, cocValidation, overallStatus: coaValidation.status === "PASS" && cocValidation.status === "PASS" ? "PASS" : "FAIL" };
+}
+
+// ---------------------------------------------------------------------------
+// Case Construction and Rules
+// ---------------------------------------------------------------------------
+
+function getMissingFieldActions() {
+  return state.cases.flatMap((qaCase) => {
+    const missing = [];
+    if (!isResolvedValue(qaCase.extracted.inspection.amountPerCase)) {
+      missing.push({ caseId: qaCase.id, orderId: qaCase.orderId, field: "Amount per case", path: "amountPerCase", source: "Inspection Sheet" });
+    }
+    if (!isResolvedValue(qaCase.extracted.inspection.fullCasesReceived)) {
+      missing.push({ caseId: qaCase.id, orderId: qaCase.orderId, field: "Full cases received", path: "fullCasesReceived", source: "Inspection Sheet" });
+    }
+    return missing;
+  });
+}
+
+function groupDocumentsByOrderOrLot(documents) {
+  const anchors = documents
+    .filter((doc) => [DOCUMENT_TYPES.PACKING_LIST, DOCUMENT_TYPES.INSPECTION_SHEET, DOCUMENT_TYPES.LABEL_IMAGE, DOCUMENT_TYPES.DATA_LOGGER_REPORT].includes(doc.type))
+    .map((doc) => ({ orderId: inferOrderId(doc.name, doc.text), lot: extractLot(doc.text), product: extractProduct(doc.text) }));
+
+  return documents.reduce((groups, doc) => {
+    const orderId = inferOrderId(doc.name, doc.text);
+    const lot = extractLot(doc.text);
+    const product = extractProduct(doc.text);
+    const anchor = anchors.find((item) => item.lot && lot && normalizeId(item.lot) === normalizeId(lot) && item.product && product && item.product === product);
+    const key = [DOCUMENT_TYPES.COA, DOCUMENT_TYPES.COC].includes(doc.type) ? anchor?.orderId || orderId : orderId;
+    groups[key] = groups[key] || [];
+    groups[key].push(doc);
+    return groups;
+  }, {});
+}
+
+function extractLot(text) {
+  return findFirst(text, /Lot(?: Number)?:?\s*([A-Z0-9-]+)/i) || findFirst(text, /LOT:\s*([A-Z0-9-]+)/i);
+}
+
+function extractProduct(text) {
+  return findFirst(text, /Product(?: Description)?:?\s*([^\n]+)/i);
+}
+
+function docOf(docs, type) {
+  return docs.find((doc) => doc.type === type) || { text: "", type, name: `${type} missing` };
+}
+
+function ownedDocOf(docs, type, owner) {
+  return docs.find((doc) => doc.type === type && doc.owner === owner) || { text: "", type, owner, name: `${owner} ${type} missing` };
 }
 
 function buildCaseFromDocuments(orderId, docs, index) {
-  const packing = docOf(docs, "Packing List");
-  const inspection = docOf(docs, "Inspection Sheet");
-  const label = docOf(docs, "Label Image");
-  const supplierCoa = ownedDocOf(docs, "COA", DOCUMENT_OWNERS.SUPPLIER);
-  const supplierCoc = ownedDocOf(docs, "COC", DOCUMENT_OWNERS.SUPPLIER);
-  const loggerReport = docOf(docs, "Data Logger Report");
+  const packing = docOf(docs, DOCUMENT_TYPES.PACKING_LIST);
+  const inspection = docOf(docs, DOCUMENT_TYPES.INSPECTION_SHEET);
+  const label = docOf(docs, DOCUMENT_TYPES.LABEL_IMAGE);
+  const loggerReport = docOf(docs, DOCUMENT_TYPES.DATA_LOGGER_REPORT);
+  const supplierCoa = ownedDocOf(docs, DOCUMENT_TYPES.COA, DOCUMENT_OWNERS.SUPPLIER);
+  const supplierCoc = ownedDocOf(docs, DOCUMENT_TYPES.COC, DOCUMENT_OWNERS.SUPPLIER);
   const allText = docs.map((doc) => doc.text).join("\n");
+  const certificates = docs.filter((doc) => [DOCUMENT_TYPES.COA, DOCUMENT_TYPES.COC].includes(doc.type)).map(buildCertificateRecord);
 
-  const product = findFirst(allText, /Product(?: Description)?:?\s*([^\n]+)/i) || "Unknown Product";
-  const ndc = findFirst(allText, /NDC:?\s*([0-9-]+)/i) || "Unknown";
-  const lot = findFirst(packing.text + "\n" + inspection.text, /Lot(?: Number)?:?\s*([A-Z0-9-]+)/i) || findFirst(label.text, /LOT:\s*([A-Z0-9-]+)/i) || "Unknown";
-  const expiry = findFirst(packing.text + "\n" + inspection.text, /Expiration Date:?\s*([0-9-]+)/i) || findFirst(label.text, /EXP:\s*([0-9-]+)/i) || "Unknown";
-  const expectedLoggerCount = numberOrNull(findFirst(packing.text, /Expected Data Logger Count:?\s*(\d+)/i)) || findAll(packing.text, /(?:Temp Logger|Device Serial No\.|Recorder ID|Serial Number|DL No\.):\s*([A-Z0-9 -]+)/gi).length;
   const loggerNumbers = findAll(packing.text, /(?:Temp Logger|Device Serial No\.|Recorder ID|Serial Number|DL No\.):\s*([A-Z0-9 -]+)/gi);
-  const reportLoggerIds = findAll(loggerReport.text, /Logger ID:\s*([A-Z0-9 -]+)/gi);
-  const amountPerCase = findFirst(inspection.text, /Amount per case:\s*([^\n]*)/i);
-  const fullCasesReceived = findFirst(inspection.text, /Full cases received:\s*([^\n]*)/i);
-  const certificates = docs.filter((doc) => doc.type === "COA" || doc.type === "COC").map(buildCertificateRecord);
+  const expectedLoggerCount = numberOrNull(findFirst(packing.text, /Expected Data Logger Count:?\s*(\d+)/i)) || loggerNumbers.length;
 
   return {
-    id: `QAC-UP-${String(index + 1).padStart(3, "0")}`,
+    id: `QAC-${String(index + 1).padStart(4, "0")}`,
     orderId,
     grn: findFirst(allText, /GRN \/ Receiving No\.?:?\s*([A-Z0-9-]+)/i) || "Pending",
     supplier: findFirst(allText, /Supplier:?\s*([^\n]+)/i) || "Unknown Supplier",
-    product,
-    ndc,
-    lot,
-    expiry,
+    product: extractProduct(allText) || "Unknown Product",
+    ndc: findFirst(allText, /NDC:?\s*([0-9-]+)/i) || "Unknown",
+    lot: extractLot(packing.text + "\n" + inspection.text) || extractLot(label.text) || "Unknown",
+    expiry: findFirst(packing.text + "\n" + inspection.text, /Expiration Date:?\s*([0-9-]+)/i) || findFirst(label.text, /EXP:\s*([0-9-]+)/i) || "Unknown",
     priority: /Backorder|excursion|Unsigned|Incomplete/i.test(allText) ? "High" : "Normal",
     assignedTo: "Unassigned",
     ageHours: 0,
     oracle: {
       orderId,
       expectedLoggerCount,
-      ndc,
-      lot,
-      expiry,
+      ndc: findFirst(allText, /NDC:?\s*([0-9-]+)/i) || "Unknown",
+      lot: extractLot(packing.text + "\n" + inspection.text) || "Unknown",
+      expiry: findFirst(packing.text + "\n" + inspection.text, /Expiration Date:?\s*([0-9-]+)/i) || "Unknown",
       caseQuantity: numberOrNull(findFirst(allText, /Case Quantity:?\s*(\d+)/i)) || numberOrNull(findFirst(allText, /CASE QTY:\s*(\d+)/i)) || 0,
     },
-    documents: ["Packing List", "Inspection Sheet", "Label Image", "Company COA", "Supplier COA", "Company COC", "Supplier COC", "Data Logger Report"].map((type) => {
-      const found = type.includes("Company") ? docs.find((doc) => doc.type === type.split(" ")[1] && doc.owner === DOCUMENT_OWNERS.COMPANY)
-        : type.includes("Supplier") ? docs.find((doc) => doc.type === type.split(" ")[1] && doc.owner === DOCUMENT_OWNERS.SUPPLIER)
-          : docs.find((doc) => doc.type === type);
-      return {
-        type,
-        present: Boolean(found),
-        readable: Boolean(found?.text),
-        status: found ? documentStatus(type, found.text) : "Missing",
-      };
-    }),
+    documents: buildDocumentChecklist(docs),
     extracted: {
-      orderCandidates: docs.map((doc) => ({
-        source: `${doc.owner ? `${doc.owner} ` : ""}${doc.type}`,
-        label: orderLabelFor(doc.text),
-        value: findFirst(doc.text, /(?:Order ID|Order No\.|Oracle Order|Sales Order|Customer Order|Order Reference|PO \/ Order Ref):?\s*([A-Z]{2,4}[- ]?\d{6})/i) || orderId,
-        confidence: doc.confidence || 0.9,
-      })),
+      orderCandidates: docs.map((doc) => ({ source: `${doc.owner ? `${doc.owner} ` : ""}${doc.type}`, label: "Order ID", value: inferOrderId(doc.name, doc.text), confidence: doc.confidence || 0.9 })),
       dataLoggers: loggerNumbers.map((value) => ({ source: "Packing List", label: "Detected Logger ID", value, confidence: 0.94 })),
       inspection: {
-        amountPerCase: numberOrNull(amountPerCase),
-        fullCasesReceived: numberOrNull(fullCasesReceived),
+        amountPerCase: numberOrNull(findFirst(inspection.text, /Amount per case:\s*([^\n]*)/i)),
+        fullCasesReceived: numberOrNull(findFirst(inspection.text, /Full cases received:\s*([^\n]*)/i)),
         caseQuantity: numberOrNull(findFirst(inspection.text, /Case Quantity:?\s*(\d+)/i)) || 0,
       },
       label: {
-        ndc: findFirst(label.text, /NDC\s*([0-9-]+)/i) || ndc,
-        lot: findFirst(label.text, /LOT:\s*([A-Z0-9-]+)/i) || lot,
-        expiry: findFirst(label.text, /EXP:\s*([0-9-]+)/i) || expiry,
+        ndc: findFirst(label.text, /NDC\s*([0-9-]+)/i) || findFirst(allText, /NDC:?\s*([0-9-]+)/i) || "Unknown",
+        lot: extractLot(label.text) || "Unknown",
+        expiry: findFirst(label.text, /EXP:\s*([0-9-]+)/i) || "Unknown",
       },
-      coa: {
-        present: Boolean(supplierCoa.text),
-        signed: getOwnedDocument({ extracted: { certificates } }, "COA", DOCUMENT_OWNERS.SUPPLIER).signed,
-        lot: findFirst(supplierCoa.text, /Lot Number:?\s*([A-Z0-9-]+)/i) || lot,
-        productMatch: supplierCoa.text ? supplierCoa.text.includes(product) : false,
-      },
-      coc: {
-        present: Boolean(supplierCoc.text),
-        signed: getOwnedDocument({ extracted: { certificates } }, "COC", DOCUMENT_OWNERS.SUPPLIER).signed,
-        lot: findFirst(supplierCoc.text, /Lot:?\s*([A-Z0-9-]+)/i) || lot,
-        productMatch: supplierCoc.text ? supplierCoc.text.includes(product) : false,
-      },
+      coa: { present: Boolean(supplierCoa.text), signed: isSignedCertificate(DOCUMENT_TYPES.COA, supplierCoa.text), lot: extractLot(supplierCoa.text), productMatch: supplierCoa.text.includes(extractProduct(allText) || "") },
+      coc: { present: Boolean(supplierCoc.text), signed: isSignedCertificate(DOCUMENT_TYPES.COC, supplierCoc.text), lot: extractLot(supplierCoc.text), productMatch: supplierCoc.text.includes(extractProduct(allText) || "") },
       certificates,
       loggerReport: {
-        loggerIds: reportLoggerIds,
+        loggerIds: findAll(loggerReport.text, /Logger ID:\s*([A-Z0-9 -]+)/gi),
         temperatureStatus: findFirst(loggerReport.text, /Temperature Status:?\s*([^\n]+)/i) || "Missing",
         minTemp: findFirst(loggerReport.text, /Minimum Temperature:?\s*([^\n]+)/i) || "N/A",
         maxTemp: findFirst(loggerReport.text, /Maximum Temperature:?\s*([^\n]+)/i) || "N/A",
@@ -1282,13 +614,24 @@ function buildCaseFromDocuments(orderId, docs, index) {
     },
     audit: [
       `${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} ${docs.length} uploaded document(s) parsed`,
-      `${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} Grouped under ${orderId} using Order ID and lot/product matching`,
       `${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} Validation rules executed`,
     ],
   };
 }
 
-function documentStatus(type, text) {
+function buildDocumentChecklist(docs) {
+  return REQUIRED_DOCUMENTS.map((requiredType) => {
+    const found = requiredType.includes("Company")
+      ? docs.find((doc) => doc.type === requiredType.split(" ")[1] && doc.owner === DOCUMENT_OWNERS.COMPANY)
+      : requiredType.includes("Supplier")
+        ? docs.find((doc) => doc.type === requiredType.split(" ")[1] && doc.owner === DOCUMENT_OWNERS.SUPPLIER)
+        : docs.find((doc) => doc.type === requiredType);
+
+    return { type: requiredType, present: Boolean(found), readable: Boolean(found?.text), status: found ? documentStatus(found.text) : "Missing" };
+  });
+}
+
+function documentStatus(text) {
   if (!text) return "Unreadable";
   if (/Unsigned/i.test(text)) return "Unsigned";
   if (/Excursion detected|FAIL/i.test(text)) return "Excursion";
@@ -1298,9 +641,101 @@ function documentStatus(type, text) {
   return "Pass";
 }
 
-function orderLabelFor(text) {
-  const labels = ["Sales Order", "Oracle Order", "Order No.", "Customer Order", "Order Reference", "PO / Order Ref", "Order ID"];
-  return labels.find((label) => text.includes(label)) || "Order ID";
+const rules = [
+  {
+    id: "R001",
+    name: "Order ID must match Oracle",
+    severity: "Critical",
+    run: (qaCase) => {
+      const matches = qaCase.extracted.orderCandidates.some((candidate) => normalizeOrder(candidate.value) === normalizeOrder(qaCase.oracle.orderId));
+      return ruleResult(matches, "Order ID", qaCase.oracle.orderId, qaCase.extracted.orderCandidates.map((item) => item.value).join(", "), "Investigate document/order mismatch before release.");
+    },
+  },
+  {
+    id: "R002",
+    name: "Data logger count must match expected count",
+    severity: "High",
+    run: (qaCase) => {
+      const found = unique(qaCase.extracted.dataLoggers.map((logger) => normalizeId(logger.value))).length;
+      return ruleResult(found === qaCase.oracle.expectedLoggerCount, "Data logger count", String(qaCase.oracle.expectedLoggerCount), String(found), "QA should verify missing or extra data logger numbers.");
+    },
+  },
+  {
+    id: "R003",
+    name: "Temperature result must be acceptable",
+    severity: "Critical",
+    run: (qaCase) => ruleResult(qaCase.extracted.loggerReport.temperatureStatus.toLowerCase().includes("within"), "Temperature status", "Within limits", qaCase.extracted.loggerReport.temperatureStatus, "Route to temperature excursion/deviation review."),
+  },
+  {
+    id: "R004",
+    name: "Required inspection fields must be present",
+    severity: "High",
+    run: (qaCase) => {
+      const passed = isResolvedValue(qaCase.extracted.inspection.amountPerCase) && isResolvedValue(qaCase.extracted.inspection.fullCasesReceived);
+      return ruleResult(passed, "Inspection fields", "Amount per case and full cases received", `${valueOrBlank(qaCase.extracted.inspection.amountPerCase)}, ${valueOrBlank(qaCase.extracted.inspection.fullCasesReceived)}`, "QA or Receiving must complete required inspection fields.");
+    },
+  },
+  {
+    id: "R005",
+    name: "Label lot and NDC must match Oracle",
+    severity: "Critical",
+    run: (qaCase) => {
+      const passed = normalizeId(qaCase.extracted.label.lot) === normalizeId(qaCase.oracle.lot) && normalizeId(qaCase.extracted.label.ndc) === normalizeId(qaCase.oracle.ndc);
+      return ruleResult(passed, "Label", `${qaCase.oracle.lot} / ${qaCase.oracle.ndc}`, `${qaCase.extracted.label.lot} / ${qaCase.extracted.label.ndc}`, "Investigate product or label mismatch.");
+    },
+  },
+  {
+    id: "R006",
+    name: "Supplier COA must comply with Company COA",
+    severity: "Critical",
+    run: (qaCase) => {
+      const coa = compareCoaDocuments(qaCase);
+      const failed = coa.details.filter((item) => !item.passed).map((item) => item.fieldName).join(", ");
+      return ruleResult(coa.status === "PASS", "COA comparison", "Supplier COA compliant with Company COA", coa.status, failed ? `Review non-compliant COA field(s): ${failed}.` : "No action required.");
+    },
+  },
+  {
+    id: "R007",
+    name: "Supplier COC must comply with Company COC",
+    severity: "Critical",
+    run: (qaCase) => {
+      const coc = compareCocDocuments(qaCase);
+      const failed = coc.details.filter((item) => !item.passed).map((item) => item.fieldName).join(", ");
+      return ruleResult(coc.status === "PASS", "COC comparison", "Supplier COC compliant with Company COC", coc.status, failed ? `Review non-compliant COC commitment(s): ${failed}.` : "No action required.");
+    },
+  },
+];
+
+function ruleResult(passed, field, expected, extracted, action) {
+  return { passed, field, expected, extracted, action: passed ? "No action required." : action };
+}
+
+function evaluateCase(qaCase) {
+  const results = rules.map((rule) => ({ ...rule, ...rule.run(qaCase) }));
+  const failed = results.filter((item) => !item.passed);
+  const critical = failed.filter((item) => item.severity === "Critical");
+  const high = failed.filter((item) => item.severity === "High");
+  const certificateDecision = getCertificateDecision(qaCase);
+
+  let recommendation = "Ready for QA Release";
+  if (certificateDecision.overallStatus === "FAIL" || critical.length) recommendation = "Compliance Hold";
+  else if (high.length) recommendation = "Correction Required";
+  else if (failed.length) recommendation = "QA Review Required";
+
+  return { results, failed, critical, high, recommendation, certificateDecision };
+}
+
+// ---------------------------------------------------------------------------
+// Processing Flow
+// ---------------------------------------------------------------------------
+
+function groupUploadedFiles() {
+  return state.uploadedFiles.reduce((groups, file) => {
+    const key = file.detectedOrder || "Pending OCR";
+    groups[key] = groups[key] || [];
+    groups[key].push(file);
+    return groups;
+  }, {});
 }
 
 async function buildCasesFromUploads() {
@@ -1311,150 +746,261 @@ async function buildCasesFromUploads() {
     owner: doc.owner,
     detectedOrder: doc.detectedOrder,
     confidence: doc.confidence,
+    ocrMethod: doc.ocrMethod,
+    extraction: doc.extraction,
     file: doc.file,
     text: doc.text,
   }));
   const grouped = groupDocumentsByOrderOrLot(parsedDocuments);
-  return Object.entries(grouped).map(([orderId, docs], index) => buildCaseFromDocuments(orderId, docs, index));
+  return Object.entries(grouped).filter(([orderId]) => orderId !== "Pending OCR").map(([orderId, docs], index) => buildCaseFromDocuments(orderId, docs, index));
 }
 
 async function processDocuments() {
   state.stage = "processing";
+  state.processing = true;
+  state.ocrProgress = [];
   state.processLog = [
-    "Uploaded documents classified by type.",
-    "COA/COC documents classified by owner: COMPANY or SUPPLIER.",
-    "Order IDs extracted from varied labels and filenames.",
-    "Documents grouped into separate QA cases.",
-    "Data logger numbers extracted and counted.",
+    "Documents classified by type and owner.",
+    "OCR extracted page text from uploaded files.",
+    "Documents grouped into QA cases.",
     "Supplier COA compared against Company COA.",
     "Supplier COC compared against Company COC.",
-    "Missing inspection fields routed for QA action.",
   ];
   render();
-  if (state.uploadedFiles.some((file) => file.file)) {
-    cases = await buildCasesFromUploads();
-    state.selectedCaseId = cases[0]?.id;
-  }
-  window.setTimeout(() => {
+
+  try {
+    state.cases = await buildCasesFromUploads();
+    state.selectedCaseId = state.cases[0]?.id || null;
     state.stage = getMissingFieldActions().length ? "review" : "complete";
+  } catch (error) {
+    state.processLog = [`Processing stopped: ${error.message}`];
+    state.ocrProgress = ["Check that PDF.js and Tesseract.js loaded successfully and that uploaded files are readable."];
+  } finally {
+    state.processing = false;
     render();
-  }, 500);
+  }
 }
 
-function resolveMissingField(token, value) {
-  const [caseId, path] = token.split(":");
-  const qaCase = cases.find((item) => item.id === caseId);
+function updateInspectionField(token, value) {
+  const [caseId, field] = token.split(":");
+  const qaCase = state.cases.find((item) => item.id === caseId);
   if (!qaCase) return;
-  qaCase.extracted.inspection[path] = value;
-  qaCase.audit.push(`${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} QA resolved ${path} as ${value}`);
+  const previousValue = qaCase.extracted.inspection[field];
+  qaCase.extracted.inspection[field] = value;
+  const timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  qaCase.audit.push(`${timestamp} QA updated ${field} from ${valueOrBlank(previousValue)} to ${valueOrBlank(value)}`);
+  state.fieldHistory.push({ caseId, field, previousValue, newValue: value, timestamp });
+}
+
+// ---------------------------------------------------------------------------
+// Rendering
+// ---------------------------------------------------------------------------
+
+function render() {
+  const selected = state.cases.find((qaCase) => qaCase.id === state.selectedCaseId) || state.cases[0] || null;
+  const evaluatedCases = state.cases.map((qaCase) => ({ ...qaCase, evaluation: evaluateCase(qaCase) }));
+  const selectedEval = selected ? evaluateCase(selected) : null;
+  const openExceptions = evaluatedCases.flatMap((qaCase) => qaCase.evaluation.failed.map((failure) => ({ caseId: qaCase.id, orderId: qaCase.orderId, ...failure })));
+
+  byId("app").innerHTML = `
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">GenAI QA Release Intelligence</p>
+        <h1>Document Verification & Product Release Dashboard</h1>
+      </div>
+      <div class="system-card">
+        ${icon("shield")}
+        <div><strong>Decision Support</strong><span>OCR extracts. Rules validate. QA approves.</span></div>
+      </div>
+    </header>
+    <main class="layout">
+      <aside class="sidebar">
+        ${navButton("upload", "scan", "Process Documents")}
+        ${navButton("overview", "queue", "Release Queue")}
+        ${navButton("exceptions", "alert", "Exceptions")}
+        ${navButton("architecture", "database", "Architecture")}
+        <div class="sidebar-note">
+          <strong>QA Focus</strong>
+          <span>Order ID extraction, logger validation, inspection gaps, Company-vs-Supplier COA/COC validation, and Oracle checks.</span>
+        </div>
+      </aside>
+      <section class="content">
+        ${state.tab === "upload" ? renderUploadWorkflow(evaluatedCases) : ""}
+        ${state.tab === "overview" ? renderOverview(evaluatedCases, selected, selectedEval) : ""}
+        ${state.tab === "exceptions" ? renderExceptions(openExceptions) : ""}
+        ${state.tab === "architecture" ? renderArchitecture() : ""}
+      </section>
+    </main>
+  `;
+  bindEvents();
+}
+
+function navButton(tab, iconName, label) {
+  return `<button class="nav-item ${state.tab === tab ? "active" : ""}" data-tab="${tab}">${icon(iconName)}${label}</button>`;
+}
+
+function renderUploadWorkflow(evaluatedCases) {
+  const missing = getMissingFieldActions();
+  return `
+    <section class="workflow">
+      <div class="stepper">
+        ${step("1", "Upload", ["intake", "processing", "review", "complete"].includes(state.stage))}
+        ${step("2", "OCR + Extraction", ["processing", "review", "complete"].includes(state.stage))}
+        ${step("3", "Resolve Fields", ["review", "complete"].includes(state.stage))}
+        ${step("4", "Dashboard", state.stage === "complete")}
+      </div>
+      ${state.stage === "intake" ? renderIntake() : ""}
+      ${state.stage === "processing" ? renderProcessing() : ""}
+      ${state.stage === "review" ? renderMissingReview(missing) : ""}
+      ${state.stage === "complete" ? renderProcessComplete(evaluatedCases) : ""}
+    </section>`;
+}
+
+function step(number, label, active) {
+  return `<div class="step ${active ? "active" : ""}"><span>${number}</span><strong>${label}</strong></div>`;
+}
+
+function renderIntake() {
+  const groups = groupUploadedFiles();
+  return `
+    <section class="panel full upload-panel">
+      <div class="panel-title">
+        <h2>Bulk QA Document Intake</h2>
+        <span>Upload documents for one or many orders. Documents are grouped after OCR extraction.</span>
+      </div>
+      <div class="upload-body">
+        <label class="drop-zone">
+          ${icon("file")}
+          <strong>Drop or select QA documents</strong>
+          <span>Packing lists, inspection sheets, labels, Company/Supplier COA, Company/Supplier COC, and data logger reports can be processed together.</span>
+          <input id="documentUpload" type="file" multiple />
+        </label>
+        <div class="action-row">
+          <button class="primary-action" data-action="process" ${state.uploadedFiles.length ? "" : "disabled"}>Start OCR Processing</button>
+        </div>
+      </div>
+    </section>
+    <section class="split">
+      <div class="panel">
+        <div class="panel-title"><h2>Upload Batch</h2><span>${state.uploadedFiles.length} document(s) ready</span></div>
+        ${state.uploadedFiles.length ? renderUploadTable() : renderEmptyBlock("No documents selected yet.")}
+      </div>
+      <div class="panel">
+        <div class="panel-title"><h2>Pre-OCR Grouping</h2><span>Based on filename hints only</span></div>
+        <div class="group-list">
+          ${Object.entries(groups).map(([orderId, files]) => `<button class="group-card"><span class="pill warn">${files.length} docs</span><strong>${orderId}</strong><small>${files.map((file) => `${file.owner ? `${file.owner} ` : ""}${file.type}`).join(", ")}</small></button>`).join("") || renderEmptyInline("Awaiting upload")}
+        </div>
+      </div>
+    </section>`;
+}
+
+function renderUploadTable() {
+  return `<table>
+    <thead><tr><th>File</th><th>Document Type</th><th>Owner</th><th>Detected Order</th><th>Confidence</th></tr></thead>
+    <tbody>${state.uploadedFiles.map((file) => `<tr><td>${file.name}</td><td>${file.type}</td><td>${file.owner || "N/A"}</td><td>${file.detectedOrder}</td><td>${Math.round((file.confidence || 0) * 100)}%</td></tr>`).join("")}</tbody>
+  </table>`;
+}
+
+function renderProcessing() {
+  return `<section class="panel full processing-panel">
+    <div class="panel-title"><h2>Processing Documents</h2><span>Real Tesseract OCR, extraction, normalization, and rules execution</span></div>
+    <div class="process-grid">
+      ${processCard("OCR", "Running", "PDFs are rendered page-by-page and scanned with Tesseract.")}
+      ${processCard("Extraction", "Running", "The app attempts a GenAI endpoint, then falls back to deterministic extraction.")}
+      ${processCard("Validation", "Pending", "Rules compare Supplier COA/COC against Company references.")}
+      ${processCard("Audit", "Pending", "QA corrections are captured in the case history.")}
+    </div>
+    <div class="process-log">
+      ${state.processLog.map((item) => `<div>${icon("check")}<span>${item}</span></div>`).join("")}
+      ${state.ocrProgress.map((item) => `<div class="ocr-line">${icon("scan")}<span>${item}</span></div>`).join("")}
+    </div>
+  </section>`;
+}
+
+function processCard(title, status, body) {
+  return `<div class="process-card"><span class="pill ${statusClass(status)}">${status}</span><h2>${title}</h2><p>${body}</p></div>`;
+}
+
+function renderMissingReview(missing) {
+  if (!missing.length) {
+    return `<section class="panel full"><div class="empty-state">${icon("check")}<h2>No Missing Fields Found</h2><p>All required inspection fields are complete.</p><button class="primary-action" data-action="complete">Go to Dashboard</button></div></section>`;
+  }
+  return `<section class="panel full">
+    <div class="panel-title"><h2>Missing Field Resolution</h2><span>QA must fill the value or intentionally set 0 / NULL before release review.</span></div>
+    <table>
+      <thead><tr><th>Order</th><th>Field</th><th>Source</th><th>Current Value</th><th>Actions</th></tr></thead>
+      <tbody>${missing.map((item) => `<tr><td>${item.orderId}</td><td>${item.field}</td><td>${item.source}</td><td><span class="pill bad">Empty</span></td><td>${fieldActionControls(item.caseId, item.path)}</td></tr>`).join("")}</tbody>
+    </table>
+  </section>`;
+}
+
+function fieldActionControls(caseId, field) {
+  const token = `${caseId}:${field}`;
+  return `<div class="field-actions"><input type="number" placeholder="Enter value" data-field-input="${token}" /><button data-update-field="${token}">Fill</button><button data-set-zero="${token}">Use 0</button><button data-set-null="${token}">Use NULL</button></div>`;
+}
+
+function renderProcessComplete(evaluatedCases) {
+  return `<section class="panel full">
+    <div class="panel-title"><h2>Processing Complete</h2><span>Each order is available separately in the release queue.</span></div>
+    <div class="completion-grid">${evaluatedCases.map((qaCase) => `<button class="completion-card" data-open-case="${qaCase.id}"><span class="pill ${statusClass(qaCase.evaluation.recommendation)}">${qaCase.evaluation.recommendation}</span><strong>${qaCase.orderId}</strong><small>${qaCase.evaluation.failed.length} exception(s) · ${qaCase.product}</small></button>`).join("")}</div>
+    <div class="action-row"><button class="primary-action" data-tab="overview">Open Release Dashboard</button></div>
+  </section>`;
+}
+
+function renderOverview(evaluatedCases, selected, selectedEval) {
+  if (!selected) return renderEmptyBlock("No processed QA cases yet. Upload documents from Process Documents.");
+  return `
+    <section class="metrics">
+      ${metric("Cases Pending QA", state.cases.length, "clock")}
+      ${metric("Ready for Release", evaluatedCases.filter((item) => item.evaluation.recommendation === "Ready for QA Release").length, "check")}
+      ${metric("Compliance Holds", evaluatedCases.filter((item) => item.evaluation.recommendation === "Compliance Hold").length, "alert")}
+      ${metric("Open Exceptions", evaluatedCases.reduce((sum, item) => sum + item.evaluation.failed.length, 0), "file")}
+    </section>
+    <section class="split">
+      <div class="panel queue-panel"><div class="panel-title"><h2>QA Release Queue</h2><span>Click a case to inspect evidence</span></div><div class="case-list">${evaluatedCases.map(renderCaseRow).join("")}</div></div>
+      <div class="panel recommendation ${statusClass(selectedEval.recommendation)}"><span class="pill ${statusClass(selectedEval.recommendation)}">${selectedEval.recommendation}</span><h2>${selected.id} · ${selected.orderId}</h2><p>${recommendationText(selectedEval)}</p><div class="case-meta"><span>${selected.product}</span><span>Lot ${selected.lot}</span><span>Certificate Result ${selectedEval.certificateDecision.overallStatus}</span><span>${selected.priority}</span></div></div>
+    </section>
+    <section class="detail-grid">
+      ${renderDocumentChecklist(selected)}
+      ${renderOrderExtraction(selected)}
+      ${renderDataLoggers(selected)}
+      ${renderFieldComparison(selected)}
+      ${renderInspectionFieldEditor(selected)}
+      ${renderCertificateDiagnostics(selected)}
+      ${renderCertificateComparison(selected, selectedEval)}
+      ${renderRules(selectedEval)}
+      ${renderAudit(selected)}
+    </section>`;
+}
+
+function metric(label, value, iconName) {
+  return `<div class="metric">${icon(iconName)}<span>${label}</span><strong>${value}</strong></div>`;
 }
 
 function renderCaseRow(qaCase) {
-  return `
-    <button class="case-row ${qaCase.id === state.selectedCaseId ? "selected" : ""}" data-case="${qaCase.id}">
-      <div>
-        <strong>${qaCase.orderId}</strong>
-        <span>${qaCase.product}</span>
-      </div>
-      <span class="pill ${statusClass(qaCase.evaluation.recommendation)}">${qaCase.evaluation.recommendation}</span>
-      <small>${qaCase.grn} · ${qaCase.ageHours}h</small>
-    </button>
-  `;
+  return `<button class="case-row ${qaCase.id === state.selectedCaseId ? "selected" : ""}" data-case="${qaCase.id}"><div><strong>${qaCase.orderId}</strong><span>${qaCase.product}</span></div><span class="pill ${statusClass(qaCase.evaluation.recommendation)}">${qaCase.evaluation.recommendation}</span><small>${qaCase.grn} · ${qaCase.ageHours}h</small></button>`;
 }
 
-function recommendationText(qaCase, evaluation) {
-  if (evaluation.recommendation === "Ready for QA Release") {
-    return "COA validation and COC validation passed, and all priority checks passed. QA can proceed with release approval after final review.";
-  }
-  if (evaluation.certificateDecision.overallStatus === "FAIL") {
-    return `Do not release yet. Overall certificate result is FAIL because COA validation is ${evaluation.certificateDecision.coaValidation.status} and COC validation is ${evaluation.certificateDecision.cocValidation.status}.`;
-  }
-  const reasons = evaluation.failed.slice(0, 3).map((item) => item.name.toLowerCase()).join(", ");
-  return `Do not release yet. The system found ${evaluation.failed.length} exception(s): ${reasons}.`;
+function recommendationText(evaluation) {
+  if (evaluation.recommendation === "Ready for QA Release") return "COA validation and COC validation passed, and all priority checks passed.";
+  if (evaluation.certificateDecision.overallStatus === "FAIL") return `Do not release yet. COA validation is ${evaluation.certificateDecision.coaValidation.status} and COC validation is ${evaluation.certificateDecision.cocValidation.status}.`;
+  return `Do not release yet. The system found ${evaluation.failed.length} exception(s).`;
 }
 
 function renderDocumentChecklist(qaCase) {
-  return `
-    <div class="panel">
-      <div class="panel-title">
-        <h2>Document Checklist</h2>
-        <span>Required release package</span>
-      </div>
-      <table>
-        <thead><tr><th>Document</th><th>Present</th><th>Readable</th><th>Status</th></tr></thead>
-        <tbody>
-          ${qaCase.documents.map((doc) => `
-            <tr>
-              <td>${doc.type}</td>
-              <td>${doc.present ? "Yes" : "No"}</td>
-              <td>${doc.readable ? "Yes" : "No"}</td>
-              <td><span class="pill ${statusClass(doc.status)}">${doc.status}</span></td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    </div>
-  `;
+  return `<div class="panel"><div class="panel-title"><h2>Document Checklist</h2><span>Required release package</span></div><table><thead><tr><th>Document</th><th>Present</th><th>Readable</th><th>Status</th></tr></thead><tbody>${qaCase.documents.map((doc) => `<tr><td>${doc.type}</td><td>${doc.present ? "Yes" : "No"}</td><td>${doc.readable ? "Yes" : "No"}</td><td><span class="pill ${statusClass(doc.status)}">${doc.status}</span></td></tr>`).join("")}</tbody></table></div>`;
 }
 
 function renderOrderExtraction(qaCase) {
-  return `
-    <div class="panel">
-      <div class="panel-title">
-        <h2>Order ID Extraction</h2>
-        <span>Varied labels normalized against Oracle</span>
-      </div>
-      <table>
-        <thead><tr><th>Source</th><th>Detected Label</th><th>Extracted</th><th>Confidence</th><th>Oracle Match</th></tr></thead>
-        <tbody>
-          ${qaCase.extracted.orderCandidates.map((candidate) => {
-            const match = normalizeOrder(candidate.value) === normalizeOrder(qaCase.oracle.orderId);
-            return `
-              <tr>
-                <td>${candidate.source}</td>
-                <td>${candidate.label}</td>
-                <td>${candidate.value}</td>
-                <td>${Math.round(candidate.confidence * 100)}%</td>
-                <td><span class="pill ${match ? "good" : "bad"}">${match ? "Yes" : "No"}</span></td>
-              </tr>
-            `;
-          }).join("")}
-        </tbody>
-      </table>
-    </div>
-  `;
+  return `<div class="panel"><div class="panel-title"><h2>Order ID Extraction</h2><span>Varied labels normalized against Oracle</span></div><table><thead><tr><th>Source</th><th>Extracted</th><th>Confidence</th><th>Oracle Match</th></tr></thead><tbody>${qaCase.extracted.orderCandidates.map((candidate) => {
+    const match = normalizeOrder(candidate.value) === normalizeOrder(qaCase.oracle.orderId);
+    return `<tr><td>${candidate.source}</td><td>${candidate.value}</td><td>${Math.round(candidate.confidence * 100)}%</td><td><span class="pill ${match ? "good" : "bad"}">${match ? "Yes" : "No"}</span></td></tr>`;
+  }).join("")}</tbody></table></div>`;
 }
 
 function renderDataLoggers(qaCase) {
-  const loggerCount = unique(qaCase.extracted.dataLoggers.map((logger) => normalizeId(logger.value))).length;
-  const countOk = loggerCount === qaCase.oracle.expectedLoggerCount;
-  return `
-    <div class="panel highlight-panel">
-      <div class="panel-title">
-        <h2>Data Logger Validation</h2>
-        <span>Extraction, count, report match, temperature result</span>
-      </div>
-      <div class="logger-summary">
-        <div><span>Found</span><strong>${loggerCount}</strong></div>
-        <div><span>Expected</span><strong>${qaCase.oracle.expectedLoggerCount}</strong></div>
-        <div><span>Count Result</span><strong class="${countOk ? "text-good" : "text-bad"}">${countOk ? "Pass" : "Review"}</strong></div>
-        <div><span>Temp Status</span><strong class="${statusClass(qaCase.extracted.loggerReport.temperatureStatus)}">${qaCase.extracted.loggerReport.temperatureStatus}</strong></div>
-      </div>
-      <table>
-        <thead><tr><th>Logger ID</th><th>Source Label</th><th>Source</th><th>Confidence</th></tr></thead>
-        <tbody>
-          ${qaCase.extracted.dataLoggers.map((logger) => `
-            <tr>
-              <td>${logger.value}</td>
-              <td>${logger.label}</td>
-              <td>${logger.source}</td>
-              <td>${Math.round(logger.confidence * 100)}%</td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    </div>
-  `;
+  const count = unique(qaCase.extracted.dataLoggers.map((logger) => normalizeId(logger.value))).length;
+  return `<div class="panel highlight-panel"><div class="panel-title"><h2>Data Logger Validation</h2><span>Extraction, count, report match, temperature result</span></div><div class="logger-summary"><div><span>Found</span><strong>${count}</strong></div><div><span>Expected</span><strong>${qaCase.oracle.expectedLoggerCount}</strong></div><div><span>Count Result</span><strong class="${count === qaCase.oracle.expectedLoggerCount ? "text-good" : "text-bad"}">${count === qaCase.oracle.expectedLoggerCount ? "Pass" : "Review"}</strong></div><div><span>Temp Status</span><strong class="${statusClass(qaCase.extracted.loggerReport.temperatureStatus)}">${qaCase.extracted.loggerReport.temperatureStatus}</strong></div></div><table><thead><tr><th>Logger ID</th><th>Source</th><th>Confidence</th></tr></thead><tbody>${qaCase.extracted.dataLoggers.map((logger) => `<tr><td>${logger.value}</td><td>${logger.source}</td><td>${Math.round(logger.confidence * 100)}%</td></tr>`).join("")}</tbody></table></div>`;
 }
 
 function renderFieldComparison(qaCase) {
@@ -1466,180 +1012,83 @@ function renderFieldComparison(qaCase) {
     ["Amount per Case", "Required", valueOrBlank(qaCase.extracted.inspection.amountPerCase), "Inspection Sheet"],
     ["Full Cases Received", "Required", valueOrBlank(qaCase.extracted.inspection.fullCasesReceived), "Inspection Sheet"],
   ];
-  return `
-    <div class="panel wide">
-      <div class="panel-title">
-        <h2>Extracted Field Comparison</h2>
-        <span>Oracle reference vs document evidence</span>
-      </div>
-      <table>
-        <thead><tr><th>Field</th><th>Oracle / Rule</th><th>Extracted</th><th>Source</th><th>Result</th></tr></thead>
-        <tbody>
-          ${rows.map(([field, expected, extracted, source]) => {
-            const pass = expected === "Required" ? extracted !== "Blank" : normalizeId(expected) === normalizeId(extracted);
-            return `
-              <tr>
-                <td>${field}</td>
-                <td>${expected}</td>
-                <td>${extracted}</td>
-                <td>${source}</td>
-                <td><span class="pill ${pass ? "good" : "bad"}">${pass ? "Pass" : "Fail"}</span></td>
-              </tr>
-            `;
-          }).join("")}
-        </tbody>
-      </table>
-    </div>
-  `;
+  return `<div class="panel wide"><div class="panel-title"><h2>Extracted Field Comparison</h2><span>Oracle reference vs document evidence</span></div><table><thead><tr><th>Field</th><th>Oracle / Rule</th><th>Extracted</th><th>Source</th><th>Result</th></tr></thead><tbody>${rows.map(([field, expected, extracted, source]) => {
+    const pass = expected === "Required" ? extracted !== "Blank" : normalizeId(expected) === normalizeId(extracted);
+    return `<tr><td>${field}</td><td>${expected}</td><td>${extracted}</td><td>${source}</td><td><span class="pill ${pass ? "good" : "bad"}">${pass ? "Pass" : "Fail"}</span></td></tr>`;
+  }).join("")}</tbody></table></div>`;
+}
+
+function renderInspectionFieldEditor(qaCase) {
+  const fields = [
+    { key: "amountPerCase", label: "Amount per case" },
+    { key: "fullCasesReceived", label: "Full cases received" },
+    { key: "caseQuantity", label: "Case quantity" },
+  ];
+  return `<div class="panel wide"><div class="panel-title"><h2>Editable QA Inspection Fields</h2><span>QA can revisit manually entered values; changes are audited.</span></div><table><thead><tr><th>Field</th><th>Current Value</th><th>Update Value</th><th>Actions</th></tr></thead><tbody>${fields.map((field) => `<tr><td>${field.label}</td><td>${valueOrBlank(qaCase.extracted.inspection[field.key])}</td><td><input class="inline-input" data-field-input="${qaCase.id}:${field.key}" value="${qaCase.extracted.inspection[field.key] ?? ""}" /></td><td>${fieldActionControls(qaCase.id, field.key)}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+function renderCertificateDiagnostics(qaCase) {
+  const certificates = qaCase.extracted.certificates || [];
+  return `<div class="panel wide"><div class="panel-title"><h2>Certificate Extraction Diagnostics</h2><span>Shows what the pipeline classified before validation.</span></div><table><thead><tr><th>Source File</th><th>Type</th><th>Owner</th><th>Signed</th><th>Extracted Fields</th><th>OCR Method</th></tr></thead><tbody>${certificates.length ? certificates.map((doc) => `<tr><td>${doc.source_file || "Uploaded certificate"}</td><td>${doc.document_type}</td><td><span class="pill ${doc.document_owner === DOCUMENT_OWNERS.SUPPLIER ? "warn" : "good"}">${doc.document_owner}</span></td><td>${doc.signed ? "Yes" : "No"}</td><td>${doc.field_count}</td><td>${doc.ocr_method || doc.extraction_provider || "N/A"}</td></tr>`).join("") : `<tr><td colspan="6">No certificate records were built.</td></tr>`}</tbody></table></div>`;
 }
 
 function renderCertificateComparison(qaCase, evaluation) {
   const decision = evaluation.certificateDecision;
-  const coaRows = decision.coaValidation.details;
-  const cocRows = decision.cocValidation.details;
-  return `
-    <div class="panel wide">
-      <div class="panel-title">
-        <h2>Company vs Supplier Certificate Validation</h2>
-        <span>COC means Certificate of Compliance. Overall result passes only when both COA and COC pass.</span>
-      </div>
-      <div class="certificate-summary">
-        <div><span>COA Validation</span><strong class="${decision.coaValidation.status === "PASS" ? "text-good" : "text-bad"}">${decision.coaValidation.status}</strong></div>
-        <div><span>COC Validation</span><strong class="${decision.cocValidation.status === "PASS" ? "text-good" : "text-bad"}">${decision.cocValidation.status}</strong></div>
-        <div><span>Overall Certificate Result</span><strong class="${decision.overallStatus === "PASS" ? "text-good" : "text-bad"}">${decision.overallStatus}</strong></div>
-      </div>
-      <table>
-        <thead><tr><th>Document</th><th>Field / Commitment</th><th>Company Requirement</th><th>Supplier Value</th><th>Result</th></tr></thead>
-        <tbody>
-          ${coaRows.map((item) => certificateRow("COA", item)).join("")}
-          ${cocRows.map((item) => certificateRow("COC", item)).join("")}
-        </tbody>
-      </table>
-    </div>
-  `;
+  return `<div class="panel wide"><div class="panel-title"><h2>Company vs Supplier Certificate Validation</h2><span>COC means Certificate of Compliance. Overall result passes only when both COA and COC pass.</span></div><div class="certificate-summary"><div><span>COA Validation</span><strong class="${decision.coaValidation.status === "PASS" ? "text-good" : "text-bad"}">${decision.coaValidation.status}</strong></div><div><span>COC Validation</span><strong class="${decision.cocValidation.status === "PASS" ? "text-good" : "text-bad"}">${decision.cocValidation.status}</strong></div><div><span>Overall Certificate Result</span><strong class="${decision.overallStatus === "PASS" ? "text-good" : "text-bad"}">${decision.overallStatus}</strong></div></div><table><thead><tr><th>Document</th><th>Field / Commitment</th><th>Company Requirement</th><th>Supplier Value</th><th>Result</th></tr></thead><tbody>${decision.coaValidation.details.map((item) => certificateRow("COA", item)).join("")}${decision.cocValidation.details.map((item) => certificateRow("COC", item)).join("")}</tbody></table></div>`;
 }
 
 function certificateRow(documentType, item) {
-  return `
-    <tr>
-      <td>${documentType}</td>
-      <td>${item.fieldName}</td>
-      <td>${item.expected}</td>
-      <td>${item.actual}</td>
-      <td><span class="pill ${item.passed ? "good" : "bad"}">${item.passed ? "PASS" : "FAIL"}</span></td>
-    </tr>
-  `;
+  return `<tr><td>${documentType}</td><td>${item.fieldName}</td><td>${item.expected}</td><td>${item.actual}</td><td><span class="pill ${item.passed ? "good" : "bad"}">${item.passed ? "PASS" : "FAIL"}</span></td></tr>`;
 }
 
 function renderRules(evaluation) {
-  return `
-    <div class="panel wide">
-      <div class="panel-title">
-        <h2>Validation Rule Results</h2>
-        <span>Configurable QA controls</span>
-      </div>
-      <table>
-        <thead><tr><th>Rule</th><th>Severity</th><th>Expected</th><th>Extracted</th><th>Result</th><th>Recommended Action</th></tr></thead>
-        <tbody>
-          ${evaluation.results.map((item) => `
-            <tr>
-              <td>${item.id} · ${item.name}</td>
-              <td>${item.severity}</td>
-              <td>${item.expected}</td>
-              <td>${item.extracted}</td>
-              <td><span class="pill ${item.passed ? "good" : "bad"}">${item.passed ? "Pass" : "Fail"}</span></td>
-              <td>${item.action}</td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    </div>
-  `;
+  return `<div class="panel wide"><div class="panel-title"><h2>Validation Rule Results</h2><span>Configurable QA controls</span></div><table><thead><tr><th>Rule</th><th>Severity</th><th>Expected</th><th>Extracted</th><th>Result</th><th>Recommended Action</th></tr></thead><tbody>${evaluation.results.map((item) => `<tr><td>${item.id} · ${item.name}</td><td>${item.severity}</td><td>${item.expected}</td><td>${item.extracted}</td><td><span class="pill ${item.passed ? "good" : "bad"}">${item.passed ? "Pass" : "Fail"}</span></td><td>${item.action}</td></tr>`).join("")}</tbody></table></div>`;
 }
 
 function renderAudit(qaCase) {
-  return `
-    <div class="panel">
-      <div class="panel-title">
-        <h2>Audit Trail</h2>
-        <span>Traceable system activity</span>
-      </div>
-      <ol class="audit-list">
-        ${qaCase.audit.map((event) => `<li>${event}</li>`).join("")}
-      </ol>
-      <div class="decision-box">
-        <strong>QA Decision Controls</strong>
-        <button>Confirm Values</button>
-        <button>Request Correction</button>
-        <button>Approve / Hold</button>
-      </div>
-    </div>
-  `;
+  return `<div class="panel"><div class="panel-title"><h2>Audit Trail</h2><span>Traceable system activity</span></div><ol class="audit-list">${qaCase.audit.map((event) => `<li>${event}</li>`).join("")}</ol></div>`;
 }
 
 function renderExceptions(openExceptions) {
-  return `
-    <section class="panel full">
-      <div class="panel-title">
-        <h2>Exception Queue</h2>
-        <span>Open items requiring QA, Receiving, or Supplier action</span>
-      </div>
-      <table>
-        <thead><tr><th>Case</th><th>Order</th><th>Severity</th><th>Exception</th><th>Field</th><th>Recommended Action</th><th>Status</th></tr></thead>
-        <tbody>
-          ${openExceptions.map((item) => `
-            <tr>
-              <td>${item.caseId}</td>
-              <td>${item.orderId}</td>
-              <td>${item.severity}</td>
-              <td>${item.name}</td>
-              <td>${item.field}</td>
-              <td>${item.action}</td>
-              <td><span class="pill ${item.severity === "Critical" ? "bad" : "warn"}">Open</span></td>
-            </tr>
-          `).join("")}
-        </tbody>
-      </table>
-    </section>
-  `;
+  return `<section class="panel full"><div class="panel-title"><h2>Exception Queue</h2><span>Open items requiring QA, Receiving, or Supplier action</span></div>${openExceptions.length ? `<table><thead><tr><th>Case</th><th>Order</th><th>Severity</th><th>Exception</th><th>Field</th><th>Recommended Action</th><th>Status</th></tr></thead><tbody>${openExceptions.map((item) => `<tr><td>${item.caseId}</td><td>${item.orderId}</td><td>${item.severity}</td><td>${item.name}</td><td>${item.field}</td><td>${item.action}</td><td><span class="pill ${item.severity === "Critical" ? "bad" : "warn"}">Open</span></td></tr>`).join("")}</tbody></table>` : renderEmptyBlock("No open exceptions.")}</section>`;
 }
 
 function renderArchitecture() {
-  return `
-    <section class="architecture">
-      ${architectureCard("1", "Document Intake", "Packing lists, inspection sheets, labels, Company COA, Supplier COA, Company COC, Supplier COC, and data logger reports are attached to a QA case.")}
-      ${architectureCard("2", "OCR + Computer Vision", "Documents are read, classified, and converted into text, tables, field candidates, and confidence scores.")}
-      ${architectureCard("3", "NLP / GenAI Extraction", "Order IDs and data logger numbers are detected across varied labels and formats, then returned as structured JSON.")}
-      ${architectureCard("4", "Normalization", "IDs, dates, and quantities are standardized while preserving original source values for auditability.")}
-      ${architectureCard("5", "Oracle Validation", "Extracted fields are compared with Oracle order, lot, NDC, expiry, quantity, and shipment reference data.")}
-      ${architectureCard("6", "Rules Engine", "Configurable QA rules compare Supplier COA against Company COA and Supplier COC against Company COC, then identify missing fields, mismatches, and compliance blockers.")}
-      ${architectureCard("7", "Prescriptive Output", "The dashboard provides release recommendation, exception owner, and next best action.")}
-      ${architectureCard("8", "QA Approval + Audit", "QA confirms, corrects, overrides with justification, and final decisions are logged.")}
-    </section>
-  `;
+  const cards = [
+    ["1", "Document Intake", "Packing lists, inspection sheets, labels, Company/Supplier COA, Company/Supplier COC, and data logger reports are attached to a QA case."],
+    ["2", "OCR", "PDF pages and images are read by Tesseract after PDF.js rendering."],
+    ["3", "Extraction", "A backend GenAI endpoint can return structured JSON; local extraction remains a fallback."],
+    ["4", "Normalization", "IDs, dates, and quantities are standardized while source values are preserved."],
+    ["5", "Rules", "Supplier COA is compared against Company COA and Supplier COC against Company COC."],
+    ["6", "QA Approval", "QA corrects fields, resolves exceptions, and decisions are audited."],
+  ];
+  return `<section class="architecture">${cards.map(([number, title, body]) => `<div class="arch-card"><span>${number}</span><h2>${title}</h2><p>${body}</p></div>`).join("")}</section>`;
 }
 
-function architectureCard(number, title, body) {
-  return `
-    <div class="arch-card">
-      <span>${number}</span>
-      <h2>${title}</h2>
-      <p>${body}</p>
-    </div>
-  `;
+function renderEmptyBlock(message) {
+  return `<section class="panel full"><div class="empty-state">${icon("file")}<h2>${message}</h2></div></section>`;
 }
+
+function renderEmptyInline(message) {
+  return `<div class="empty-inline">${message}</div>`;
+}
+
+// ---------------------------------------------------------------------------
+// Event Binding
+// ---------------------------------------------------------------------------
 
 function bindEvents() {
-  const uploader = document.getElementById("documentUpload");
+  const uploader = byId("documentUpload");
   if (uploader) {
     uploader.addEventListener("change", (event) => {
       const selectedFiles = Array.from(event.target.files || []);
-      state.uploadedFiles = selectedFiles.map((file, index) => ({
+      state.uploadedFiles = selectedFiles.map((file) => ({
         name: file.name,
         file,
         type: inferDocumentType(file.name),
-        detectedOrder: file.name.toUpperCase().match(/ORD[-_ ]?\d{6}/) ? inferOrderId(file.name, index) : "Pending OCR",
-        confidence: Math.max(0.72, 0.98 - index * 0.03),
+        owner: [DOCUMENT_TYPES.COA, DOCUMENT_TYPES.COC].includes(inferDocumentType(file.name)) ? inferDocumentOwner(file.name) : null,
+        detectedOrder: inferOrderId(file.name),
+        confidence: 0.5,
       }));
       render();
     });
@@ -1647,73 +1096,52 @@ function bindEvents() {
 
   document.querySelectorAll("[data-action]").forEach((button) => {
     button.addEventListener("click", () => {
-      const action = button.dataset.action;
-      if (action === "use-demo") {
-        cases = JSON.parse(JSON.stringify(seededDemoCases)).map((qaCase, index) => hydrateCaseSchema(qaCase, [
-          { supplierCoaSigned: false, supplierCocSigned: false, supplierCocPresent: false },
-          {},
-          { assay: 106.2 },
-        ][index] || {}));
-        state.selectedCaseId = cases[0].id;
-        state.uploadedFiles = demoUploadFiles;
-        state.stage = "intake";
-      }
-      if (action === "process") {
-        processDocuments();
-        return;
-      }
-      if (action === "complete") {
+      if (button.dataset.action === "process") processDocuments();
+      if (button.dataset.action === "complete") {
         state.stage = "complete";
+        state.tab = "overview";
+        render();
       }
-      render();
-    });
-  });
-
-  document.querySelectorAll("[data-open-case]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.selectedCaseId = button.dataset.openCase;
-      state.tab = "overview";
-      render();
-    });
-  });
-
-  document.querySelectorAll("[data-fill]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const input = document.querySelector(`[data-fill-input="${button.dataset.fill}"]`);
-      const value = input && input.value !== "" ? Number(input.value) : "";
-      if (value === "") return;
-      resolveMissingField(button.dataset.fill, value);
-      render();
-    });
-  });
-
-  document.querySelectorAll("[data-default-zero]").forEach((button) => {
-    button.addEventListener("click", () => {
-      resolveMissingField(button.dataset.defaultZero, 0);
-      render();
-    });
-  });
-
-  document.querySelectorAll("[data-default-null]").forEach((button) => {
-    button.addEventListener("click", () => {
-      resolveMissingField(button.dataset.defaultNull, "NULL");
-      render();
-    });
-  });
-
-  document.querySelectorAll("[data-case]").forEach((button) => {
-    button.addEventListener("click", () => {
-      state.selectedCaseId = button.dataset.case;
-      render();
     });
   });
 
   document.querySelectorAll("[data-tab]").forEach((button) => {
     button.addEventListener("click", () => {
       state.tab = button.dataset.tab;
-      if (state.tab === "upload" && state.stage === "complete") {
-        state.stage = "intake";
-      }
+      if (state.tab === "upload" && state.stage === "complete") state.stage = "intake";
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-case], [data-open-case]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.selectedCaseId = button.dataset.case || button.dataset.openCase;
+      state.tab = "overview";
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-update-field]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const token = button.dataset.updateField;
+      const input = document.querySelector(`[data-field-input="${token}"]`);
+      if (!input) return;
+      const rawValue = input.value.trim();
+      updateInspectionField(token, rawValue.toUpperCase() === "NULL" ? "NULL" : numberOrNull(rawValue) ?? rawValue);
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-set-zero]").forEach((button) => {
+    button.addEventListener("click", () => {
+      updateInspectionField(button.dataset.setZero, 0);
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-set-null]").forEach((button) => {
+    button.addEventListener("click", () => {
+      updateInspectionField(button.dataset.setNull, "NULL");
       render();
     });
   });

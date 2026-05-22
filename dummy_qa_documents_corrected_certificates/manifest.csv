@@ -1,0 +1,6 @@
+Order ID,Scenario,Certificate Files,Expected Certificate Result
+ORD-459104,"Clean order - supplier COA and COC comply with company requirements","Company COA; Supplier COA; Company COC; Supplier COC",PASS
+ORD-458920,"Supplier certificates unsigned; other existing docs also show logger count and inspection gaps","Company COA; Supplier COA; Company COC; Supplier COC",FAIL
+ORD-459221,"Supplier COA fails assay specification; existing logger report has excursion","Company COA; Supplier COA; Company COC; Supplier COC",FAIL
+ORD-459337,"Supplier COA/COC carry wrong Order ID while values comply","Company COA; Supplier COA; Company COC; Supplier COC",FAIL
+ORD-459450,"Supplier COA incomplete and Supplier COC storage condition does not meet company requirement","Company COA; Supplier COA; Company COC; Supplier COC",FAIL

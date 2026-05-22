@@ -1,0 +1,128 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+3 0 obj
+<< /Length 1592 >>
+stream
+BT
+/F2 15 Tf
+50 750 Td
+/F2 13 Tf
+(QA Inspection and Release Report) Tj
+0 -16 Td
+/F1 9.5 Tf
+(DEMONSTRATION DOCUMENT - FICTIONAL DATA ONLY) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Order ID: ORD-459337) Tj
+0 -16 Td
+/F1 9.5 Tf
+(GRN / Receiving No.: GRN-88477) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Supplier: Summit Sterile Supply) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Product: Buffered Diluent Pack) Tj
+0 -16 Td
+/F1 9.5 Tf
+(NDC: 88220-4410-02) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Lot Number: SSS-4409) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Expiration Date: 2027-09-30) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Oracle populated fields are shown for QA verification.) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Inspection Field | Value) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Order No.: ORD-459337) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Lot Number: SSS-4409) Tj
+0 -16 Td
+/F1 9.5 Tf
+(NDC: 88220-4410-02) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Expiration Date: 2027-09-30) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Case Quantity: 36) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Amount per case: 36) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Full cases received: 8) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Label image received: Yes) Tj
+0 -16 Td
+/F1 9.5 Tf
+(COA received: Yes) Tj
+0 -16 Td
+/F1 9.5 Tf
+(COC received: Yes) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Data logger report received: Yes) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(QA Entry Section:) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Visual inspection completed: Pending QA Review) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Release recommendation: Pending automated validation) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Reviewer Comments:) Tj
+0 -16 Td
+/F1 9.5 Tf
+(COA/COC contain a different Order ID than Oracle; Demonstrates document attached to the wrong order) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Parent 5 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 3 0 R >>
+endobj
+5 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+6 0 obj
+<< /Type /Catalog /Pages 5 0 R >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000000154 00000 n 
+0000001798 00000 n 
+0000001934 00000 n 
+0000001991 00000 n 
+trailer
+<< /Size 7 /Root 6 0 R >>
+startxref
+2040
+%%EOF

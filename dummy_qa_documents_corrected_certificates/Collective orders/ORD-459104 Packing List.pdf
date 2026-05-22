@@ -1,0 +1,116 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+3 0 obj
+<< /Length 1486 >>
+stream
+BT
+/F2 15 Tf
+50 750 Td
+/F2 13 Tf
+(Detailed Packing List) Tj
+0 -16 Td
+/F1 9.5 Tf
+(DEMONSTRATION DOCUMENT - FICTIONAL DATA ONLY) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Order ID: ORD-459104) Tj
+0 -16 Td
+/F1 9.5 Tf
+(GRN / Receiving No.: GRN-88429) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Supplier: Apex Biologics) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Product: Cold Chain Diagnostic Reagent) Tj
+0 -16 Td
+/F1 9.5 Tf
+(NDC: 54321-1122-09) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Lot Number: ABX-7110) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Expiration Date: 2027-11-30) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Oracle Order: ORD-459104) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Ship To: QA Receiving Dock) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Shipment Date: 2026-05-13) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Line | Item Description | Lot | Expiry | Cases | Amount Per Case | Total Units) Tj
+0 -16 Td
+/F1 9.5 Tf
+(1 | Cold Chain Diagnostic Reagent | ABX-7110 | 2027-11-30 | 16 | 12 | 192) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Temperature Monitoring Devices) Tj
+0 -16 Td
+/F1 9.5 Tf
+(1. Device Serial No.: TT4-710445) Tj
+0 -16 Td
+/F1 9.5 Tf
+(2. Device Serial No.: TT4-710446) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Expected Data Logger Count: 2) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Extractable Data Logger Count on Document: 2) Tj
+0 -16 Td
+/F1 9.5 Tf
+() Tj
+0 -16 Td
+/F1 9.5 Tf
+(Packing Notes:) Tj
+0 -16 Td
+/F1 9.5 Tf
+(QA must verify data logger numbers against the report before release.) Tj
+0 -16 Td
+/F1 9.5 Tf
+(Document may be several pages in production; this dummy version is condensed.) Tj
+ET
+endstream
+endobj
+4 0 obj
+<< /Type /Page /Parent 5 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 1 0 R /F2 2 0 R >> >> /Contents 3 0 R >>
+endobj
+5 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+6 0 obj
+<< /Type /Catalog /Pages 5 0 R >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000000154 00000 n 
+0000001692 00000 n 
+0000001828 00000 n 
+0000001885 00000 n 
+trailer
+<< /Size 7 /Root 6 0 R >>
+startxref
+1934
+%%EOF
